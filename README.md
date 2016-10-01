@@ -5,6 +5,7 @@ Purpose: Implements n-bin histogram and SIFT features corresponding to a cell of
 Generates this report for all corresponding .mp4 files present in the input directory that is provided as an input.
 
 Pre-requisites:
+
 	1. Python 2.7.x
 	2. openCV 2.4.13
 	3. numpy
@@ -12,6 +13,7 @@ Pre-requisites:
 	3. Windows environment
 	
 Installation:
+
 	1. Download and install python 2.7.x version.
 	2. Download and install OpenCV 2.4.13 version.
 	3. Copy opencv\build\python\2.7\x86\cv2.pyd (distribution file) and place it in python installation location C:\Python27\Lib\site-packages
@@ -20,6 +22,7 @@ Installation:
 	
 
 Input Params:
+
 	1. Task : task1, task2, exit
 		a. task1: Histogram generation
 		b. task2: SIFT features generation
