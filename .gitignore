@@ -1,0 +1,12 @@
+.idea/
+/Phase1/*.pyc
+/Phase2/*.pyc
+/Phase2/src/*.pyc
+/Phase2/src/task1/*.pyc
+/Phase2/src/task2/*.pyc
+/Phase2/src/task3/*.pyc
+/Phase2/src/task4/*.pyc
+/Phase2/src/utils/*.pyc
+
+
+
