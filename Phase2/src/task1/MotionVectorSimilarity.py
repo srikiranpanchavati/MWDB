@@ -2,26 +2,48 @@
 import os.path
 import sys
 
-parent = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+parent = os.path.dirname(os.path.dirname(os.path.abspath('__file__')))
 sys.path.insert(0, parent)
 
 import numpy as np
 from scipy.spatial import distance
-from utils.helper import FileIO
+from utils.MotionVectorHelper import MotionVectorHelper
 
 class MotionVectorSimilarity:
-    def __init__(self, videoFile1, videoFile2):
-        self.v1 = videoFile1
-        self.v2 = videoFile2
+    def __init__(self):
+       pass
 
+    # alter this function
     def euclidean_motionvector_similarity(self, array_1, array_2):
-        euclidean_similarity = distance.euclidean(array_1, array_2)
+        i = 0
+        euclidean_similarity = 0
+        for i in range(min(len(array_1), len(array_2))):            
+            euclidean_similarity += distance.euclidean(array_1[i,:], array_2[i,:])
+
+        euclidean_similarity = euclidean_similarity / i
         return euclidean_similarity
 
+    # alter this function
     def cosine_motionvector_similarity(self, array_1, array_2):
-        cosine_similarity = distance.cosine(array_1, array_2)
+        i = 0
+        cosine_similarity = 0
+        for i in range(min(len(array_1), len(array_2))):            
+            cosine_similarity += distance.cosine(array_1[i,:], array_2[i,:])
+
+        cosine_similarity = cosine_similarity / i
         return cosine_similarity
 
-mv = MotionVectorSimilarity("1R.mp4", "2R.mp4")
-file_operator = FileIO("sift_vectors.txt", mv.v1, mv.v2)
-file_operator.vectorizeInput()
+mv = MotionVectorHelper("motionVector_10r.mvect", "10R.mp4", "1R.mp4")
+array_1, array_2 = mv.parseFile()
+
+ms = MotionVectorSimilarity()
+euclidean_distance = ms.euclidean_motionvector_similarity(array_1, array_2)
+cosine_distance = ms.cosine_motionvector_similarity(array_1, array_2)
+
+print "Euclidean Distance"
+print euclidean_distance
+print "Cosine Distance"
+print cosine_distance
+
+
+

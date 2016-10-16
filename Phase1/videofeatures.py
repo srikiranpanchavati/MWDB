@@ -114,7 +114,7 @@ class VideoFeatures(object):
             if key_points[i] is not None and \
                row_start <= round(key_points[i].pt[0]) <= row_end and \
                col_start <= round(key_points[i].pt[1]) <= col_end:
-                    __data = "%s; %s; %s; [ %s, %s, %s, %s, %s ]\n\n"\
+                    __data = "%s; %s; %s; [ %s; %s; %s; %s; %s ];\n\n"\
                              % (self.__in_file_name, self.__frame_count, self.__cell_count,
                                 int(round(key_points[i].pt[0])), int(round(key_points[i].pt[1])),
                                 round(key_points[i].size/2, 4), round(key_points[0].angle, 4), descriptors[i].astype(int))
@@ -160,8 +160,7 @@ if __name__ == "__main__":
                                  % __bin_size
             else:
                 __ext = ".sift"
-                __print_format = "SIFT output format: FileName; Frame number; Cell number; " \
-                                 "[x, y, Scale, Orientation, [a1 a2 ... a128]]\n\n"
+                __print_format = ""
 
             #  Open/create(if not available) output file.
             __file_name = __out_file + __ext
