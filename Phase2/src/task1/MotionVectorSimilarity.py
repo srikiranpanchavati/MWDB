@@ -15,12 +15,22 @@ class MotionVectorSimilarity:
 
     # alter this function
     def euclidean_motionvector_similarity(self, array_1, array_2):
-        euclidean_similarity = distance.euclidean(array_1, array_2)
+        i = 0
+        euclidean_similarity = 0
+        for i in range(min(len(array_1), len(array_2))):            
+            euclidean_similarity += distance.euclidean(array_1[i,:], array_2[i,:])
+
+        euclidean_similarity = euclidean_similarity / i
         return euclidean_similarity
 
     # alter this function
     def cosine_motionvector_similarity(self, array_1, array_2):
-        cosine_similarity = distance.cosine(array_1, array_2)
+        i = 0
+        cosine_similarity = 0
+        for i in range(min(len(array_1), len(array_2))):            
+            cosine_similarity += distance.cosine(array_1[i,:], array_2[i,:])
+
+        cosine_similarity = cosine_similarity / i
         return cosine_similarity
 
 mv = MotionVectorHelper("motionVector_10r.mvect", "10R.mp4", "1R.mp4")
