@@ -32,6 +32,7 @@ class MotionVectorHelper(object):
                 final_list = frame_and_block + motion_vector
                 
                 '''place the data in the respective numpy arrays'''
+                final_list = map(int, final_list)
                 if raw_data_array[0] == self.video_file_name_1:
                     video_array_1 = np.vstack([video_array_1, final_list])
                 else:
