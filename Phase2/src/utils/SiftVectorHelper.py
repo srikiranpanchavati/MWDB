@@ -27,10 +27,15 @@ class SiftVectorHelper(object):
 
                 video_file_names = [self.video_file_name_1, self.video_file_name_2]
                 if feature[0] in video_file_names:
+
+                    frame_block_sift_info = feature[1:7]
+                    frame_block_sift_info =  map(float, frame_block_sift_info)
+
                     descriptor = feature[7]
                     descriptor = ','.join(descriptor.split())
                     des_list =  [int(x) for x in descriptor.split(',') if x]
 
+                    des_list = frame_block_sift_info +  des_list
                     if feature[0] == self.video_file_name_1:
                         video_array_1.append(des_list)
                     else:

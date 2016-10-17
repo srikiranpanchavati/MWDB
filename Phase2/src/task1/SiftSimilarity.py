@@ -14,15 +14,23 @@ class SiftSimilarity:
 
     # alter this function
     def euclidean_motionvector_similarity(self, array_1, array_2):
-        # euclidean_similarity = distance.euclidean(array_1, array_2)
-        # return euclidean_similarity
-        print "Calc Eucledian"
+        i = 0
+        euclidean_similarity = 0
+        for i in range(min(len(array_1), len(array_2))):
+            euclidean_similarity += distance.euclidean(array_1[i][6:], (array_2[i][6:]))
+
+        euclidean_similarity = euclidean_similarity / i
+        return euclidean_similarity
 
     # alter this function
     def cosine_motionvector_similarity(self, array_1, array_2):
-        # cosine_similarity = distance.cosine(array_1, array_2)
-        # return cosine_similarity
-        print "Calc Cosine"
+        i = 0
+        cosine_similarity = 0
+        for i in range(min(len(array_1), len(array_2))):
+            cosine_similarity += distance.cosine(array_1[i][6:], (array_2[i][6:]))
+
+        cosine_similarity = cosine_similarity / i
+        return cosine_similarity
 
 svh = SiftVectorHelper("C:\Users\sjjai\Desktop\Phase2\out_sift.sift", "10R.mp4", "1R.mp4")
 array_1, array_2 = svh.parseFile()
@@ -31,7 +39,5 @@ svs = SiftSimilarity()
 euclidean_distance = svs.euclidean_motionvector_similarity(array_1, array_2)
 cosine_distance = svs.cosine_motionvector_similarity(array_1, array_2)
 
-print "Euclidean Distance"
-print euclidean_distance
-print "Cosine Distance"
-print cosine_distance
+print "{} ->  {}".format("Euclidean Distance", euclidean_distance)
+print "{} ->  {}".format("Cosine Distance", cosine_distance)
