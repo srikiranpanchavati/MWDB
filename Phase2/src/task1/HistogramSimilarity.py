@@ -8,6 +8,7 @@ import cv2
 import scipy.spatial
 import os.path
 import sys
+import fractions
 parent = os.path.dirname(os.path.dirname(os.path.abspath('__file__')))
 sys.path.insert(0, parent)
 from utils.ColorHistogramHelper import *
@@ -16,7 +17,7 @@ from utils.ColorHistogramHelper import *
 class HistogramSimilarity:
 	def __init__(self):
 		pass
-
+	'''
 	def compute_similarity_correlation(self,hist_video1,hist_video2):
 		sum = 0.0
 		count = 0
@@ -25,8 +26,33 @@ class HistogramSimilarity:
 			sum += result
 			count += 1
 		print "The similarity based on correlation is " + str(sum/count)
-
-	
+	'''
+	def compute_similarity_correlation(self,hist_video1,hist_video2):
+		sum = 0.0
+		# count is the number of comparisions made 
+		count = 0
+		l1 = len(hist_video1)
+		l2 = len(hist_video2)
+		first = []
+		second = []
+		if l1 == l2 or l1 < l2:
+			first = hist_video1
+			second = hist_video2
+		else:
+			first = hist_video2
+			second = hist_video1
+		l1 = len(first)
+		l2 = len(second)
+		step = int(round(l2/l1))
+		for i,j in zip(range(0,l1),range(0,l2,step)):
+			x = first[i]
+			for k in range(j,j+step):
+				y = second[k]
+				result = cv2.compareHist(x,y,cv2.cv.CV_COMP_CORREL)
+				sum += result
+				count += 1
+		print "The histogram similarity based on correlation is " + str(sum/count)
+	'''
 	def compute_similarity_chisquare(self,hist_video1,hist_video2):
 		sum = 0.0
 		count = 0
@@ -35,8 +61,35 @@ class HistogramSimilarity:
 			sum += result
 			count += 1
 		print "The similarity based on chisquare is " + str(sum/count)
+	'''
 
+	def compute_similarity_chisquare(self,hist_video1,hist_video2):
+		sum = 0.0
+		# count is the number of comparisions made 
+		count = 0
+		l1 = len(hist_video1)
+		l2 = len(hist_video2)
+		first = []
+		second = []
+		if l1 == l2 or l1 < l2:
+			first = hist_video1
+			second = hist_video2
+		else:
+			first = hist_video2
+			second = hist_video1
+		l1 = len(first)
+		l2 = len(second)
+		step = int(round(l2/l1))
+		for i,j in zip(range(0,l1),range(0,l2,step)):
+			x = first[i]
+			for k in range(j,j+step):
+				y = second[k]
+				result = cv2.compareHist(x,y,cv2.cv.CV_COMP_CHISQR)
+				sum += result
+				count += 1
+		print "The histogram similarity based on chisquare is " + str(sum/count)
 
+	'''
 	def compute_similarity_intersect(self,hist_video1,hist_video2):
 
 		sum = 0.0
@@ -46,8 +99,36 @@ class HistogramSimilarity:
 			sum += result
 			count += 1
 		print "The similarity based on intersect is " + str(sum/count)
+	'''
+
+	def compute_similarity_intersect(self,hist_video1,hist_video2):
+		sum = 0.0
+		# count is the number of comparisions made 
+		count = 0
+		l1 = len(hist_video1)
+		l2 = len(hist_video2)
+		first = []
+		second = []
+		if l1 == l2 or l1 < l2:
+			first = hist_video1
+			second = hist_video2
+		else:
+			first = hist_video2
+			second = hist_video1
+		l1 = len(first)
+		l2 = len(second)
+		step = int(round(l2/l1))
+		for i,j in zip(range(0,l1),range(0,l2,step)):
+			x = first[i]
+			for k in range(j,j+step):
+				y = second[k]
+				result = cv2.compareHist(x,y,cv2.cv.CV_COMP_INTERSECT)
+				sum += result
+				count += 1
+		print "The histogram similarity based on intersect is " + str(sum/count)
 
 
+	'''
 	def compute_similarity_bhattacharya(self,hist_video1,hist_video2):
 		sum = 0.0
 		count = 0
@@ -56,8 +137,35 @@ class HistogramSimilarity:
 			sum += result
 			count += 1
 		print "The similarity based on bhattacharya is " + str(sum/count)
-	
+	'''
+	def compute_similarity_bhattacharya(self,hist_video1,hist_video2):
+		sum = 0.0
+		# count is the number of comparisions made 
+		count = 0
+		l1 = len(hist_video1)
+		l2 = len(hist_video2)
+		first = []
+		second = []
+		if l1 == l2 or l1 < l2:
+			first = hist_video1
+			second = hist_video2
+		else:
+			first = hist_video2
+			second = hist_video1
+		l1 = len(first)
+		l2 = len(second)
+		step = int(round(l2/l1))
+		for i,j in zip(range(0,l1),range(0,l2,step)):
+			x = first[i]
+			for k in range(j,j+step):
+				y = second[k]
+				result = cv2.compareHist(x,y,cv2.cv.CV_COMP_BHATTACHARYYA)
+				sum += result
+				count += 1
+		print "The histogram similarity based on bhattacharya is " + str(sum/count)
 
+
+	'''
 	def compute_similarity_euclidean(self,hist_video1,hist_video2):
 		sum = 0.0
 		count = 0
@@ -66,8 +174,35 @@ class HistogramSimilarity:
 			sum += result
 			count += 1
 		print "The similarity based on euclidean is " + str(sum/count)
+	'''
 
+	def compute_similarity_euclidean(self,hist_video1,hist_video2):
+		sum = 0.0
+		# count is the number of comparisions made 
+		count = 0
+		l1 = len(hist_video1)
+		l2 = len(hist_video2)
+		first = []
+		second = []
+		if l1 == l2 or l1 < l2:
+			first = hist_video1
+			second = hist_video2
+		else:
+			first = hist_video2
+			second = hist_video1
+		l1 = len(first)
+		l2 = len(second)
+		step = int(round(l2/l1))
+		for i,j in zip(range(0,l1),range(0,l2,step)):
+			x = first[i]
+			for k in range(j,j+step):
+				y = second[k]
+				result = scipy.spatial.distance.euclidean(x,y)
+				sum += result
+				count += 1
+		print "The histogram similarity based on euclidean is " + str(sum/count)
 
+	'''
 	def compute_similarity_manhattan(self,hist_video1,hist_video2):
 		sum = 0.0
 		count = 0
@@ -76,8 +211,35 @@ class HistogramSimilarity:
 			sum += result
 			count += 1
 		print "The similarity based on manhattan is " + str(sum/count)
+	'''
+	def compute_similarity_manhattan(self,hist_video1,hist_video2):
+		sum = 0.0
+		# count is the number of comparisions made 
+		count = 0
+		l1 = len(hist_video1)
+		l2 = len(hist_video2)
+		first = []
+		second = []
+		if l1 == l2 or l1 < l2:
+			first = hist_video1
+			second = hist_video2
+		else:
+			first = hist_video2
+			second = hist_video1
+		l1 = len(first)
+		l2 = len(second)
+		step = int(round(l2/l1))
+		for i,j in zip(range(0,l1),range(0,l2,step)):
+			x = first[i]
+			for k in range(j,j+step):
+				y = second[k]
+				result = scipy.spatial.distance.cityblock(x,y)
+				sum += result
+				count += 1
+		print "The histogram similarity based on manhattan is " + str(sum/count)
 
 
+	
 
 
 helper = ColorHistogramHelper()
