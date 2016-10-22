@@ -1,6 +1,6 @@
 import numpy as np
 from Phase2.src.utils.helper import Helper
-from sklearn.cluster import KMeans
+import cv2
 
 
 class KmeansReduction:
@@ -34,9 +34,11 @@ class KmeansReduction:
         self.features = f
 
     def reduce_dimensions(self):
-        km = KMeans(n_clusters= self.dimensions).fit_transform(self.features)
-        print km[0]
-
+        criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
+        ret,label,center=cv2.kmeans(np.float32(self.features),self.dimensions,criteria,10,cv2.KMEANS_RANDOM_CENTERS)
+        print ret
+        print label
+        print center
 
 if __name__ == "__main__":
     file_path = raw_input("input file path: ")
