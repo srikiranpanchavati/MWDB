@@ -1,6 +1,8 @@
 import numpy as np
 from Phase2.src.utils.helper import Helper
 import cv2
+import collections
+import operator
 
 
 class KmeansReduction:
@@ -35,10 +37,13 @@ class KmeansReduction:
 
     def reduce_dimensions(self):
         criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
-        ret,label,center=cv2.kmeans(np.float32(self.features),self.dimensions,criteria,10,cv2.KMEANS_RANDOM_CENTERS)
-        print ret
-        print label
-        print center
+        ret, label, center = cv2.kmeans(np.float32(self.features), self.dimensions, criteria, 10,
+                                        cv2.KMEANS_RANDOM_CENTERS)
+        scores = collections.Counter(label.ravel())
+        sorted_scores = sorted(scores.items(), key=operator.itemgetter(1), reverse=True)
+        new_feature = np.dot(self.features, np.transpose(center))
+        return new_feature[0], sorted_scores, center
+
 
 if __name__ == "__main__":
     file_path = raw_input("input file path: ")
@@ -50,4 +55,3 @@ if __name__ == "__main__":
         hist_pts[i] = hist[i][3]
     dr = KmeansReduction(hist, hist_pts, dimensions)
     dr.reduce_dimensions()
-
