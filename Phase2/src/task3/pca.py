@@ -20,15 +20,22 @@ class PCA:
 
         covariance_matrix = (np.dot(b.transpose(), b)) / (b.shape[0] - 1)
         eigen_values, eigen_vectors = np.linalg.eig(covariance_matrix)
+
         if d < eigen_values.size:
             eigen_tuples = sorted(enumerate(eigen_values), key=lambda x: x[1], reverse=True)
-            indices_to_remove = []
-            for i in range(d, eigen_values.size):
-                indices_to_remove.append(eigen_tuples[i][0])
-            new_pts = np.delete(hist_pts, indices_to_remove, 1)
+            indices_needed = []
+            sum_eval = np.sum(eigen_values)
+            feature_scores = []
+
+            for i in range(0, d):
+                feature_scores.append((eigen_tuples[i][0], (eigen_tuples[i][1]/sum_eval)*100))
+                indices_needed.append(eigen_tuples[i][0])
+
+            new_ev = eigen_vectors[indices_needed]
+            new_features = np.dot(hist_pts, np.transpose(new_ev))
             for i in range(0, len(hist)):
-                hist[i][3] = new_pts[i]
-        return hist
+                hist[i][3] = new_features[i]
+        return feature_scores, hist
 
 
 if __name__ == "__main__":
