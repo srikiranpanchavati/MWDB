@@ -98,8 +98,9 @@ class VideoFeatures(object):
         __histogram = [int(__histogram_matrix[i][0]) for i in range(len(__histogram_matrix))]
 
         # Formatted data that will be added to the .chst file.
-        __data = "%s; %d; %d; %s \n\n"\
-                 % (self.__in_file_name, self.__frame_count, self.__cell_count, __histogram)
+        __histogram_string = ",".join(str(int(__histogram_matrix[i][0])) for i in range(len(__histogram_matrix)))
+        __data = "%s;%d;%d;[%s]\n"\
+                 % (self.__in_file_name, self.__frame_count, self.__cell_count, __histogram_string)
 
         self.__file_stream.write(__data)
 
@@ -114,11 +115,11 @@ class VideoFeatures(object):
             if key_points[i] is not None and \
                row_start <= round(key_points[i].pt[0]) <= row_end and \
                col_start <= round(key_points[i].pt[1]) <= col_end:
-                    __data = "%s; %s; %s; [ %s; %s; %s; %s; %s ];\n\n"\
+                    descriptor_string = ",".join(str(int(x)) for x in descriptors[i])
+                    __data = "%s;%s;%s;[%s,%s,%s,%s,%s]\n"\
                              % (self.__in_file_name, self.__frame_count, self.__cell_count,
                                 int(round(key_points[i].pt[0])), int(round(key_points[i].pt[1])),
-                                round(key_points[i].size/2, 4), round(key_points[0].angle, 4), descriptors[i].astype(int))
-
+                                round(key_points[i].size/2, 4), round(key_points[0].angle, 4), descriptor_string)
                     self.__file_stream.write(__data)
 
 # main function
@@ -156,11 +157,8 @@ if __name__ == "__main__":
                 except ValueError:
                     print "Not a number"
                 __ext = ".chst"
-                __print_format = "Histogram output format: FileName; Frame number; Cell number; [%d - bin histogram]\n\n"\
-                                 % __bin_size
             else:
                 __ext = ".sift"
-                __print_format = ""
 
             #  Open/create(if not available) output file.
             __file_name = __out_file + __ext
