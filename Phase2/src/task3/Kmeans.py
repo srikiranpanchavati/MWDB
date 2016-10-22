@@ -41,8 +41,8 @@ class KmeansReduction:
                                         cv2.KMEANS_RANDOM_CENTERS)
         scores = collections.Counter(label.ravel())
         sorted_scores = sorted(scores.items(), key=operator.itemgetter(1), reverse=True)
-        new_feature = np.dot(self.features, np.transpose(center))
-        return new_feature[0], sorted_scores, center
+        new_features = np.dot(self.features, np.transpose(center))
+        return new_features, sorted_scores, center
 
 
 if __name__ == "__main__":
