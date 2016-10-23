@@ -1,5 +1,6 @@
 # class to get the motion vectors for two given files and return them as numpy arrays
 import numpy as np
+from sklearn.preprocessing import StandardScaler
 
 class MotionVectorHelper(object):
     def __init__(self, in_file, video_file_1, video_file_2):
@@ -40,7 +41,7 @@ class MotionVectorHelper(object):
                     video_array_2 = np.vstack([video_array_2, final_list])
 
             current_line = input_file_handle.readline()
-        return video_array_1.astype(int), video_array_2.astype(int)
+        return StandardScaler().fit_transform(video_array_1.astype(int)), StandardScaler().fit_transform(video_array_2.astype(int))
             
         
     def parseMotionVectors(self, input_string):

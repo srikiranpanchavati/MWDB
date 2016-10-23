@@ -241,6 +241,7 @@ class MotionVectorSimilarity:
         for i in range(len(input_video_array)):
             if input_video_array[i][0] > start and input_video_array[i][0] <= end:
                 window_slice = np.vstack([window_slice, input_video_array[i,:]])
+                i += 1
         return window_slice.astype(int)           
 
     def get_motion_manhattan(self, in_file, video_file_name_1, video_file_name_2, start_index, end_index):
