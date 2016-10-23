@@ -22,7 +22,7 @@ class OverallSimilarity:
         len1 = len(self.video1_hists)
         len2 = len(self.video2_hists)
         hist_ratio = int(round(max(len1, len2) / float(min(len1, len2))))
-        print hist_ratio
+        # print hist_ratio
         if len(self.video1_hists) <= len(self.video2_hists):
             small_video_hists = self.video1_hists
             large_video_hists = self.video2_hists
@@ -33,7 +33,7 @@ class OverallSimilarity:
         len1 = len(self.video1_sift_vectors)
         len2 = len(self.video2_sift_vectors)
         sift_ratio = int(round(max(len1, len2) / float(min(len1, len2))))
-        print sift_ratio
+        # print sift_ratio
         if len(self.video1_sift_vectors) <= len(self.video2_sift_vectors):
             small_video_sifts = self.video1_sift_vectors
             large_video_sifts = self.video2_sift_vectors
@@ -50,8 +50,8 @@ class OverallSimilarity:
                                   self.find_minkowski_sift_distance(small_video_sifts, large_video_sifts,
                                                                     sift_ratio)) / float(2)
 
-        print "overall similarity = "
-        print overall_similarity
+        # print "overall similarity = "
+        # print overall_similarity
 
     def find_manhattan_hist_distance(self, small_video_hists, large_video_hists, step):
         #print small_video_hists
@@ -68,11 +68,11 @@ class OverallSimilarity:
                     for p, q in zip(x, y):
                         similarity += scipy.spatial.distance.cityblock(p, q)
                         count += 1
-        print "count= %d" % count
+        # print "count= %d" % count
         similarity += (similarity/float(count))
 
-        print "The histogram similarity based on manhattan is "
-        print similarity
+        # print "The histogram similarity based on manhattan is "
+        # print similarity
         return similarity
 
     def find_manhattan_sift_distance(self, small_video_sifts, large_video_sifts, step):
@@ -88,11 +88,11 @@ class OverallSimilarity:
                     for p, q in zip(x, y):
                         similarity += scipy.spatial.distance.cityblock(p, q)
                         count += 1
-        print "count= %d" % count
+        # print "count= %d" % count
         similarity += (similarity / float(count))
 
-        print "The sift vector similarity based on manhattan is "
-        print similarity
+        # print "The sift vector similarity based on manhattan is "
+        # print similarity
         return similarity
 
 
@@ -109,11 +109,11 @@ class OverallSimilarity:
                     for p, q in zip(x, y):
                         similarity += scipy.spatial.distance.minkowski(p, q, 3)
                         count += 1
-        print "count= %d" % count
+        # print "count= %d" % count
         similarity += (similarity/float(count))
 
-        print "The histogram similarity based on minkowski is "
-        print similarity
+        # print "The histogram similarity based on minkowski is "
+        # print similarity
         return similarity
 
     def find_minkowski_sift_distance(self, small_video_sifts, large_video_sifts, step):
@@ -129,11 +129,11 @@ class OverallSimilarity:
                     for p, q in zip(x, y):
                         similarity += scipy.spatial.distance.minkowski(p, q, 3)
                         count += 1
-        print "count= %d" % count
+        # print "count= %d" % count
         similarity += (similarity / float(count))
 
-        print "The sift vector similarity based on minkowski is "
-        print similarity
+        # print "The sift vector similarity based on minkowski is "
+        # print similarity
         return similarity
 
     def find_manhattan_similarity_for_subsequence(self, hist_file_path, sift_file_path, video1_name, video2_name, a, b):
@@ -150,7 +150,7 @@ class OverallSimilarity:
                 indices = (i, i + window)
                 mydict = {overall_sim: indices}
                 similarities.update(mydict)
-        print sorted(similarities.items())
+        return sorted(similarities.items())
 
     def find_minkowski_similarity_for_subsequence(self, hist_file_path, sift_file_path, video1_name, video2_name, a, b):
         overall_helper_obj = OverallSimilarityHelper(hist_file_path, sift_file_path, video1_name, video2_name)
@@ -166,7 +166,7 @@ class OverallSimilarity:
                 indices = (i, i + window)
                 mydict = {overall_sim: indices}
                 similarities.update(mydict)
-        print sorted(similarities.items())
+        return sorted(similarities.items())
 
 
 def execute():
