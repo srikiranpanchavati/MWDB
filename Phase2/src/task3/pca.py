@@ -1,5 +1,5 @@
 import numpy as np
-from Phase2.src.utils.helper import Helper
+from Phase2.src.utils.Task3Helper import Helper
 from sklearn.preprocessing import StandardScaler
 
 
@@ -7,6 +7,7 @@ class PCA:
     def __init__(self):
         pass
 
+    # extracts only the feature list from the input data list
     @staticmethod
     def parse_features(input_data):
         feature_data = np.zeros((len(input_data), len(input_data[0][3])))
@@ -14,12 +15,14 @@ class PCA:
             feature_data[i] = input_data[i][3]
         return feature_data
 
+    # replaces original feature vectors with reduced feature in the list
     @staticmethod
     def replace_original_features(input_data, new_features):
         for i in range(0, len(input_data)):
                 input_data[i][3] = new_features[i]
         return input_data
 
+    # performs PCA transformation on the original features and returns score and reduced feature vector list
     @staticmethod
     def pca_transform(input_features=None, d=None):
         if input_features is None or d is None:

@@ -1,7 +1,7 @@
 class Helper:
     def __init__(self):
         pass
-
+    # takes absolute path of the features file and returns it as a 2-d list
     def parse_data_from_file(self, path):
         file = open(path, 'r')
         result_list = []

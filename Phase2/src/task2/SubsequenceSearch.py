@@ -1,10 +1,12 @@
 import cv2
 import os
 from Phase2.src.task1.MotionVectorSimilarity import MotionVectorSimilarity
-import operator
 
-
+# This task takes an input video range compares with remaining videos in the database and returns k most similar
+# video ranges in the given database and saves it to a specific folder to visualise
 class SubsequenceSearch:
+
+    # Constructor to subsequence search to initalize required data.
     def __init__(self, path=None, video=None, feature_path=None, method=None, start=0, end=0, k=0):
         self.directory_path = path
         self.video_name = video
@@ -17,6 +19,7 @@ class SubsequenceSearch:
         if not os.path.exists(self.out_path):
             os.makedirs(self.out_path)
 
+    # takes a video and range and writes sub video to a specific directory
     def save_video_sequence(self, video_name=None, start=-1, end=-1, rank=-1):
         if video_name is None:
             video_name = self.video_name
@@ -57,8 +60,8 @@ class SubsequenceSearch:
         video.release()
         cv2.destroyAllWindows()
 
+    # Calculates similarity between the input range of frames and and all videos in the database.
     def find_similar_frames(self):
-        # captures all the video files (.mp4) present in the specified directory.
         file_names = []
         for in_file in os.listdir(self.directory_path):
             if in_file.endswith(".mp4") and in_file != self.video_name:
