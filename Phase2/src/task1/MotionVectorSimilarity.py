@@ -78,21 +78,7 @@ class MotionVectorSimilarity:
 
         sorted_list = sorted(total_list, key = itemgetter(0))
 
-        # now find the chebyshev distance between the videos once you've found the first frame
-        frame_start = sorted_list[0][1]
-        iterations = 1
-        frame_end = min(len(array_slice_1), len(array_slice_2))
-
-        i = 0
-        j = 0
-        while i < len(array_2) and j < len(array_1):
-            if video_array_2[i,0] >= frame_start:
-                chebyshev_similarity += distance.chebyshev(array_1[j,:], array_2[i,:])
-                j += 1
-            i += 1
-        final_similarity = chebyshev_similarity / j
-
-        return final_similarity, sorted_list
+        return sorted_list
 
     # video_array_1 and 2 containg the complete motion vectors for videos
     # split the videos into frames using helper function
@@ -131,22 +117,7 @@ class MotionVectorSimilarity:
         # sort in reverse order
         sorted_list = sorted(total_list, key = itemgetter(0))
 
-        # now find the manhattan distance between the videos once you've found the first frame
-        frame_start = sorted_list[0][1]
-        iterations = 1
-        frame_end = min(len(array_slice_1), len(array_slice_2))        
-
-        i = 0
-        j = 0
-        manhattan_similarity = 0
-        while i < len(array_2) and j < len(array_1):
-            if video_array_2[i,0] >= frame_start:
-                manhattan_similarity += distance.cityblock(array_1[j,:], array_2[i,:])
-                j += 1
-            i += 1
-        final_similarity = manhattan_similarity / j
-
-        return final_similarity, sorted_list
+        return sorted_list
 
     '''
         Overloaded manhattan distance function for TASK 1
@@ -207,7 +178,7 @@ class MotionVectorSimilarity:
         Overloaded Chebyshev distance function for TASK 1
         Input: array_1, array_2 
     '''
-    def chebyshev_motionvector_similarity(self, video_array_1, video_array_2): 
+     def chebyshev_motionvector_similarity(self, video_array_1, video_array_2): 
         slice_length = 10
         start = 0
         end = start + slice_length
