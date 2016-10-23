@@ -50,11 +50,11 @@ class MotionVectorSimilarity:
         end = start + slice_length
         chebyshev_similarity = 0
         # last frame number
-        limit = video_array_2[len(video_array_2) - 1, 0]
+        limit = video_array_2[len(video_array_2) - 1][0]
         
         # slice of video_array_1 to be compared
-        if end >= video_array_1[len(video_array_1) - 1, 0]:
-            array_slice_1 = self.split_window(video_array_1, start, video_array_1[len(video_array_1) - 1, 0])
+        if end >= video_array_1[len(video_array_1) - 1][0]:
+            array_slice_1 = self.split_window(video_array_1, start, video_array_1[len(video_array_1) - 1][0])
         else:
             array_slice_1 = self.split_window(video_array_1, start, end)
 
@@ -66,7 +66,7 @@ class MotionVectorSimilarity:
             array_slice_2 = self.split_window(video_array_2, start, end)
             # get the distance measure
             for i in range(min(len(array_slice_1), len(array_slice_2))):            
-                chebyshev_similarity += distance.chebyshev(array_slice_1[i,:], array_slice_2[i,:])
+                chebyshev_similarity += distance.chebyshev(array_slice_1[i], array_slice_2[i])
             chebyshev_similarity = chebyshev_similarity / min(len(array_slice_1), len(array_slice_2))
         
             # add distance, start, end to max heap
@@ -88,11 +88,11 @@ class MotionVectorSimilarity:
         end = start + slice_length
         manhattan_similarity = 0
         # last frame number
-        limit = video_array_2[len(video_array_2) - 1, 0]
+        limit = video_array_2[len(video_array_2) - 1][0]
         
         # slice of video_array_1 to be compared
-        if end >= video_array_1[len(video_array_1) - 1, 0]:
-            array_slice_1 = self.split_window(video_array_1, start, video_array_1[len(video_array_1) - 1, 0])
+        if end >= video_array_1[len(video_array_1) - 1][0]:
+            array_slice_1 = self.split_window(video_array_1, start, video_array_1[len(video_array_1) - 1][0])
         else:
             array_slice_1 = self.split_window(video_array_1, start, end)
 
@@ -104,7 +104,7 @@ class MotionVectorSimilarity:
             array_slice_2 = self.split_window(video_array_2, start, end)
             # get the distance measure
             for i in range(min(len(array_slice_1), len(array_slice_2))):            
-                manhattan_similarity += distance.cityblock(array_slice_1[i,:], array_slice_2[i,:])
+                manhattan_similarity += distance.cityblock(array_slice_1[i], array_slice_2[i])
             manhattan_similarity = manhattan_similarity / min(len(array_slice_1), len(array_slice_2))
         
             # add distance, start, end to max heap
@@ -129,11 +129,11 @@ class MotionVectorSimilarity:
         end = start + slice_length
         manhattan_similarity = 0
         # last frame number
-        limit = video_array_2[len(video_array_2) - 1, 0]
+        limit = video_array_2[len(video_array_2) - 1][0]
         
         # slice of video_array_1 to be compared
-        if end >= video_array_1[len(video_array_1) - 1, 0]:
-            array_slice_1 = self.split_window(video_array_1, start, video_array_1[len(video_array_1) - 1, 0])
+        if end >= video_array_1[len(video_array_1) - 1][0]:
+            array_slice_1 = self.split_window(video_array_1, start, video_array_1[len(video_array_1) - 1][0])
         else:
             array_slice_1 = self.split_window(video_array_1, start, end)
 
@@ -145,7 +145,7 @@ class MotionVectorSimilarity:
             array_slice_2 = self.split_window(video_array_2, start, end)
             # get the distance measure
             for i in range(min(len(array_slice_1), len(array_slice_2))):            
-                manhattan_similarity += distance.cityblock(array_slice_1[i,:], array_slice_2[i,:])
+                manhattan_similarity += distance.cityblock(array_slice_1[i], array_slice_2[i])
             manhattan_similarity = manhattan_similarity / min(len(array_slice_1), len(array_slice_2))
         
             # add distance, start, end to max heap
@@ -167,8 +167,8 @@ class MotionVectorSimilarity:
         j = 0
         manhattan_similarity = 0
         while i < len(array_2) and j < len(array_1):
-            if video_array_2[i,0] >= frame_start:
-                manhattan_similarity += distance.cityblock(array_1[j,:], array_2[i,:])
+            if video_array_2[i][0] >= frame_start:
+                manhattan_similarity += distance.cityblock(array_1[j], array_2[i])
                 j += 1
             i += 1
         final_similarity = manhattan_similarity / j
@@ -184,11 +184,11 @@ class MotionVectorSimilarity:
         end = start + slice_length
         chebyshev_similarity = 0
         # last frame number
-        limit = video_array_2[len(video_array_2) - 1, 0]
+        limit = video_array_2[len(video_array_2) - 1][0]
         
         # slice of video_array_1 to be compared
-        if end >= video_array_1[len(video_array_1) - 1, 0]:
-            array_slice_1 = self.split_window(video_array_1, start, video_array_1[len(video_array_1) - 1, 0])
+        if end >= video_array_1[len(video_array_1) - 1][0]:
+            array_slice_1 = self.split_window(video_array_1, start, video_array_1[len(video_array_1) - 1][0])
         else:
             array_slice_1 = self.split_window(video_array_1, start, end)
 
@@ -200,7 +200,7 @@ class MotionVectorSimilarity:
             array_slice_2 = self.split_window(video_array_2, start, end)
             # get the distance measure
             for i in range(min(len(array_slice_1), len(array_slice_2))):            
-                chebyshev_similarity += distance.chebyshev(array_slice_1[i,:], array_slice_2[i,:])
+                chebyshev_similarity += distance.chebyshev(array_slice_1[i], array_slice_2[i])
             chebyshev_similarity = chebyshev_similarity / min(len(array_slice_1), len(array_slice_2))
         
             # add distance, start, end to max heap
@@ -220,8 +220,8 @@ class MotionVectorSimilarity:
         i = 0
         j = 0
         while i < len(array_2) and j < len(array_1):
-            if video_array_2[i,0] >= frame_start:
-                chebyshev_similarity += distance.chebyshev(array_1[j,:], array_2[i,:])
+            if video_array_2[i][0] >= frame_start:
+                chebyshev_similarity += distance.chebyshev(array_1[j], array_2[i])
                 j += 1
             i += 1
         final_similarity = chebyshev_similarity / j
@@ -235,14 +235,14 @@ class MotionVectorSimilarity:
     '''
     def split_window(self, input_video_array, start, end):
         # empty numpy array
-        window_slice = np.empty(shape=(0,8))
+        window_slice = []
         i = 0
         # splits by including the start and end frame numbers
         for i in range(len(input_video_array)):
             if input_video_array[i][0] > start and input_video_array[i][0] <= end:
-                window_slice = np.vstack([window_slice, input_video_array[i,:]])
+                window_slice.append(input_video_array[i])
                 i += 1
-        return window_slice.astype(int)           
+        return window_slice
 
     def get_motion_manhattan(self, in_file, video_file_name_1, video_file_name_2, start_index, end_index):
         mv = MotionVectorHelper(in_file, video_file_name_1, video_file_name_2)
