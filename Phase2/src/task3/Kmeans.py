@@ -3,21 +3,14 @@ from Phase2.src.utils.helper import Helper
 import cv2
 import collections
 import operator
+from sklearn.preprocessing import StandardScaler
+from Phase2.src.task3.pca import PCA
 
 
 class KmeansReduction:
-    def __init__(self, in_file, features, d):
+    def __init__(self, features, d):
         self.dimensions = d
         self.features = features
-        self.in_file = in_file
-
-    @property
-    def in_file(self):
-        return self.in_file
-
-    @in_file.setter
-    def in_file(self, value):
-        self.in_file = value
 
     @property
     def dimensions(self):
@@ -46,12 +39,31 @@ class KmeansReduction:
 
 
 if __name__ == "__main__":
-    file_path = raw_input("input file path: ")
-    dimensions = input("Number of dimensions to retain: ")
+    __file_path = raw_input("input file path: ")
+    __new_dimensions = raw_input("Enter value of d: ")
+    __out_file = raw_input("enter output file name without extension: ")
+    __ext = ""
+
+    if __file_path.endswith(".chst"):
+        __ext = ".ckm"
+    elif __file_path.endswith(".sift"):
+        __ext = ".skm"
+    elif __file_path.endswith(".mvect"):
+        __ext = ".mkm"
+
     helper = Helper()
-    hist = helper.get_histogram(file_path)
-    hist_pts = np.zeros((len(hist), len(hist[0][3])))
-    for i in range(0, len(hist)):
-        hist_pts[i] = hist[i][3]
-    dr = KmeansReduction(hist, hist_pts, dimensions)
-    dr.reduce_dimensions()
+
+    __formatted_input_data = helper.parse_data_from_file(__file_path)
+    __input_features = [data[3] for data in __formatted_input_data]
+    if not __file_path.endswith(".chst"):
+        __input_features = StandardScaler().fit_transform(__input_features)
+
+    __new_features, __feature_scores, __center  = KmeansReduction(__input_features, int(__new_dimensions)).reduce_dimensions()
+    __new_hist_data = PCA.replace_original_features(__formatted_input_data,__new_features)
+    __file_name = __out_file + __ext
+    __file_stream = open(__file_name, "a")
+
+    for data in __new_hist_data:
+        data[3] = "[" + ",".join(str(x) for x in data[3]) + "]"
+        write_data = ";".join(str(x) for x in data)
+        __file_stream.write("%s\n" % write_data)
