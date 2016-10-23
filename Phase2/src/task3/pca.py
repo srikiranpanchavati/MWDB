@@ -9,9 +9,6 @@ class PCA:
 
     @staticmethod
     def parse_features(input_data):
-        print len(input_data)
-        print(len(input_data[0]))
-        return
         feature_data = np.zeros((len(input_data), len(input_data[0][3])))
         for i in range(0, len(input_data)):
             feature_data[i] = input_data[i][3]
@@ -68,8 +65,7 @@ if __name__ == "__main__":
 
     __formatted_input_data = helper.parse_data_from_file(__file_path)
     __input_features = [data[3] for data in __formatted_input_data]
-    print __input_features[:1]
-    if not __file_path.endswith(".hist"):
+    if not __file_path.endswith(".chst"):
         __input_features = StandardScaler().fit_transform(__input_features)
 
     __feature_scores, __new_features = PCA.pca_transform(__input_features, int(__new_dimensions))
