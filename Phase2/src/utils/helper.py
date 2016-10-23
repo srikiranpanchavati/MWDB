@@ -1,21 +1,18 @@
-import numpy as np
-
-
 class Helper:
     def __init__(self):
         pass
 
-    def get_histogram(self, path):
+    def parse_data_from_file(self, path):
         file = open(path, 'r')
-        histogram_list = []
+        result_list = []
         for line in file:
             line_list = []
-            hist_data = line.split(";")
-            line_list.append(hist_data[0])
-            line_list.append(hist_data[1])
-            line_list.append(hist_data[2])
-            hist_data[3] = hist_data[3].replace("\\n", "").replace(" ", "").replace("[", "").replace("]","")
-            line_list.append(map(int, hist_data[3].split(",")))
-            histogram_list.append(line_list)
+            data = line.split(";")
+            line_list.append(data[0])
+            line_list.append(data[1])
+            line_list.append(data[2])
+            data[3] = data[3].replace("\\n", "").replace(" ", "").replace("[", "").replace("]","")
+            line_list.append(map(float, data[3].split(",")))
+            result_list.append(line_list)
 
-        return histogram_list
+        return result_list
