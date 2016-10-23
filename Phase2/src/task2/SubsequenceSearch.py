@@ -2,6 +2,7 @@ import cv2
 import os
 from Phase2.src.task1.MotionVectorSimilarity import MotionVectorSimilarity
 from Phase2.src.task1.OverallSimilarity import OverallSimilarity
+from Phase2.src.task1.SiftSimilarity import SiftSimilarity
 
 # This task takes an input video range compares with remaining videos in the database and returns k most similar
 # video ranges in the given database and saves it to a specific folder to visualise
@@ -78,11 +79,17 @@ class SubsequenceSearch:
             for name in file_names:
                 pass
         elif(self.method_name == "SIFT_SIM1"):
+            sift_sim1 = SiftSimilarity()
             for name in file_names:
-                pass
+                temp = sift_sim1.get_sift_chebyshev(self.fetures_path, self.video_name, name, self.a, self.b)[0]
+                results.append((name, temp[0], temp[1], temp[2]))
+            sorted_results = sorted(results, key=lambda x: x[1])
         elif(self.method_name == "SIFT_SIM2"):
+            sift_sim1 = SiftSimilarity()
             for name in file_names:
-                pass
+                temp = sift_sim1.get_sift_manhattan(self.fetures_path, self.video_name, name, self.a, self.b)[0]
+                results.append((name, temp[0], temp[1], temp[2]))
+            sorted_results = sorted(results, key=lambda x: x[1])
         elif(self.method_name == "MOTION_SIM1"):
             mvsim = MotionVectorSimilarity()
             for name in file_names:
@@ -112,13 +119,13 @@ class SubsequenceSearch:
 
 
 if __name__ == "__main__":
-    dir_path = "D:\\Education\\ASU\\MWD\\P2DemoVideos"#raw_input("Enter input directory path: ")
+    dir_path = "C:\\Users\\Giridhar\\Desktop\\MWDB Project\\P2DemoVideos"#raw_input("Enter input directory path: ")
     vname = "6x_SQ_TL_BR_Check.mp4" #raw_input("Enter video file name: ")
-    method_name = "OVERALL_SIM1"#raw_input("Enter method name to be used for search: ")
+    method_name = "SIFT_SIM2"#raw_input("Enter method name to be used for search: ")
     start_index = 1#raw_input("Enter start frame number: ")
     end_index = 15#raw_input("Enter end frame number: ")
     no_of_sequences = 5#raw_input("Enter number of sequences (K): ")
-    feature_file  = "D:\\Education\\ASU\\MWD\\files\\phase2videos.chst"#raw_input("Enter feature file path: ")
+    feature_file  = "C:\\Users\\Giridhar\\Desktop\\MWDB Project\\phase2videos_50.spca"#raw_input("Enter feature file path: ")
     feature_file2 = None
     if "OVERALL" in method_name:
         feature_file2 = "D:\\Education\\ASU\\MWD\\files\\phase2videos.sift"  # raw_input("Enter feature file path: ")
