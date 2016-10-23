@@ -13,8 +13,8 @@ class MotionVectorHelper(object):
         input_file_handle = open(self.input_file, 'r')
 
         '''empty numpy arrays for both video files'''
-        video_array_1 = np.empty(shape=(0,9))
-        video_array_2 = np.empty(shape=(0,9))
+        video_array_1 = np.empty(shape=(0,8))
+        video_array_2 = np.empty(shape=(0,8))
         
         '''scan the file for the particular videos'''
         # Loop counter
@@ -28,14 +28,15 @@ class MotionVectorHelper(object):
             video_file_names = [self.video_file_name_1, self.video_file_name_2]
             if raw_data_array[0] in video_file_names:
                 motion_vector = self.parseMotionVectors(raw_data_array[3])
-                frame_and_block = raw_data_array[1:3]
+                # the block is ignored here
+                frame_and_block = raw_data_array[1:2]
                 final_list = frame_and_block + motion_vector
                 
                 '''place the data in the respective numpy arrays'''
                 final_list = map(int, final_list)
                 if raw_data_array[0] == self.video_file_name_1:
                     video_array_1 = np.vstack([video_array_1, final_list])
-                else:
+                if raw_data_array[0] == self.video_file_name_2:
                     video_array_2 = np.vstack([video_array_2, final_list])
 
             current_line = input_file_handle.readline()
