@@ -221,7 +221,7 @@ class SiftSimilarity:
         return ex_arr
 
 
-svh = SiftVectorHelper("C:\Users\sjjai\Desktop\Phase2\out_sift.sift", "10R.mp4", "9R.mp4")
+svh = SiftVectorHelper("C:\Users\sjjai\Desktop\Phase2\out.sift", "7R.mp4", "9R.mp4")
 array_1, array_2 = svh.parseFile()
 
 svs = SiftSimilarity(array_1, array_2)
