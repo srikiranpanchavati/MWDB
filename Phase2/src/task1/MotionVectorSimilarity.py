@@ -1,7 +1,4 @@
-'''
-    Classes that give Motion vector similarity using 
-    Manhattan and chebyshev distance measure
-'''
+# TODO write docstring description for each method
 import os.path
 import sys
 
@@ -10,7 +7,7 @@ sys.path.insert(0, parent)
 
 import numpy as np
 from scipy.spatial import distance
-from utils.MotionVectorHelper import MotionVectorHelper
+from Phase2.src.utils.MotionVectorHelper import MotionVectorHelper
 from operator import itemgetter
 
 class MotionVectorSimilarity:
@@ -47,7 +44,7 @@ class MotionVectorSimilarity:
     '''
     # video_array_1 and 2 containg the complete motion vectors for videos
     # split the videos into frames using helper function
-    def chebyshev_motionvector_similarity(self, video_array_1, video_array_2, start_index, end_index): 
+    def chebyshev_motionvector_array(self, video_array_1, video_array_2, start_index, end_index):
         slice_length = end_index - start_index
         start = start_index
         end = start + slice_length
@@ -85,7 +82,7 @@ class MotionVectorSimilarity:
 
     # video_array_1 and 2 containg the complete motion vectors for videos
     # split the videos into frames using helper function
-    def manhattan_motionvector_similarity(self, video_array_1, video_array_2, start_index, end_index): 
+    def manhattan_motionvector_array(self, video_array_1, video_array_2, start_index, end_index):
         slice_length = end_index - start_index
         start = start_index
         end = start + slice_length
@@ -181,7 +178,7 @@ class MotionVectorSimilarity:
         Overloaded Chebyshev distance function for TASK 1
         Input: array_1, array_2 
     '''
-    def chebyshev_motionvector_similarity(self, video_array_1, video_array_2): 
+    def chebyshev_motionvector_similarity(self, video_array_1, video_array_2):
         slice_length = 10
         start = 0
         end = start + slice_length
@@ -244,29 +241,33 @@ class MotionVectorSimilarity:
         for i in range(len(input_video_array)):
             if input_video_array[i][0] > start and input_video_array[i][0] <= end:
                 window_slice = np.vstack([window_slice, input_video_array[i,:]])
+                i += 1
         return window_slice.astype(int)           
 
     def get_motion_manhattan(self, in_file, video_file_name_1, video_file_name_2, start_index, end_index):
         mv = MotionVectorHelper(in_file, video_file_name_1, video_file_name_2)
         array_1, array_2 = mv.parseFile()
-        self.manhattan_motionvector_similarity(array_1, array_2, start_index, end_index)
+        return_list = self.manhattan_motionvector_array(array_1, array_2, start_index, end_index)
+        return return_list
 
     def get_motion_chebyshev(self, in_file, video_file_name_1, video_file_name_2, start_index, end_index):
         mv = MotionVectorHelper(in_file, video_file_name_1, video_file_name_2)
         array_1, array_2 = mv.parseFile()
-        self.chebyshev_motionvector_similarity(array_1, array_2, start_index, end_index)      
+        return_list = self.chebyshev_motionvector_array(array_1, array_2, start_index, end_index)
+        return return_list
 
-in_file = raw_input("Enter the absolute path for .mvect file:")
-video_file_name_1 = raw_input("Enter the file name for the first video(with extension):")
-video_file_name_2 = raw_input("Enter the file name for the second video(with extension):")
+if __name__ == "__main__":
+    in_file = raw_input("Enter the absolute path for .mvect file:")
+    video_file_name_1 = raw_input("Enter the file name for the first video(with extension):")
+    video_file_name_2 = raw_input("Enter the file name for the second video(with extension):")
 
-mv = MotionVectorHelper(in_file, video_file_name_1, video_file_name_2)
-array_1, array_2 = mv.parseFile()
+    mv = MotionVectorHelper(in_file, video_file_name_1, video_file_name_2)
+    array_1, array_2 = mv.parseFile()
 
-ms = MotionVectorSimilarity()
-similarity, sorted_list = ms.chebyshev_motionvector_similarity(array_1, array_2)
-print "Similarity"
-print similarity
+    ms = MotionVectorSimilarity()
+    similarity, sorted_list = ms.chebyshev_motionvector_similarity(array_1, array_2)
+    print "Similarity"
+    print similarity
 
 
 
