@@ -1,4 +1,7 @@
-# TODO write docstring description for each method
+'''
+    Classes that give Motion vector similarity using 
+    Manhattan and chebyshev distance measure
+'''
 import os.path
 import sys
 
@@ -178,7 +181,7 @@ class MotionVectorSimilarity:
         Overloaded Chebyshev distance function for TASK 1
         Input: array_1, array_2 
     '''
-     def chebyshev_motionvector_similarity(self, video_array_1, video_array_2): 
+    def chebyshev_motionvector_similarity(self, video_array_1, video_array_2): 
         slice_length = 10
         start = 0
         end = start + slice_length
@@ -241,7 +244,6 @@ class MotionVectorSimilarity:
         for i in range(len(input_video_array)):
             if input_video_array[i][0] > start and input_video_array[i][0] <= end:
                 window_slice = np.vstack([window_slice, input_video_array[i,:]])
-                i += 1
         return window_slice.astype(int)           
 
     def get_motion_manhattan(self, in_file, video_file_name_1, video_file_name_2, start_index, end_index):
