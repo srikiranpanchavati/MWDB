@@ -76,8 +76,10 @@ class SubsequenceSearch:
                 temp = mvsim.get_motion_manhattan(self.fetures_path, self.video_name, name, self.a, self.b)[0]
                 results.append((name, temp[0], temp[1], temp[2]))
         elif(self.method_name == "MOTION_SIM2"):
+            mvsim = MotionVectorSimilarity()
             for name in file_names:
-                pass
+                temp = mvsim.get_motion_chebyshev(self.fetures_path, self.video_name, name, self.a, self.b)[0]
+                results.append((name, temp[0], temp[1], temp[2]))
         elif(self.method_name == "OVERALL_SIM1"):
             for name in file_names:
                 pass
