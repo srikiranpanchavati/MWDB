@@ -192,6 +192,6 @@ def execute():
     similarity_obj = OverallSimilarity(video1_hists, video2_hists, video1_sift_vectors, video2_sift_vectors)
     similarity_obj.find_similarity()
     """
-#execute()  this is for task 3
-similarity_obj = OverallSimilarity(None,None,None,None)
-similarity_obj.find_manhattan_similarity_for_subsequence("D:\\Education\\ASU\\MWD\\files\\phase2videos.chst", "D:\\Education\\ASU\\MWD\\files\\phase2videos.sift","6x_SQ_BL_TM_BR_Check.mp4","6x_SQ_BL_TM_BR_Noise.mp4", 5, 10)
+    # #execute()  this is for task 3
+    # similarity_obj = OverallSimilarity(None,None,None,None)
+    # similarity_obj.find_manhattan_similarity_for_subsequence("D:\\Education\\ASU\\MWD\\files\\phase2videos.chst", "D:\\Education\\ASU\\MWD\\files\\phase2videos.sift","6x_SQ_BL_TM_BR_Check.mp4","6x_SQ_BL_TM_BR_Noise.mp4", 5, 10)

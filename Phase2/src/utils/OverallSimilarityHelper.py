@@ -72,4 +72,3 @@ def execute():
         writer.writerows(v1_sift)
 
 
-execute()
