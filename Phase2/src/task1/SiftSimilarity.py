@@ -7,7 +7,7 @@ sys.path.insert(0, parent)
 
 import numpy as np
 from scipy.spatial import distance
-from utils.SiftVectorHelper import SiftVectorHelper
+from Phase2.src.utils.SiftVectorHelper import SiftVectorHelper
 from operator import itemgetter
 
 class SiftSimilarity:
@@ -50,11 +50,11 @@ class SiftSimilarity:
         end = start + slice_length
         chebyshev_similarity = 0
         # last frame number
-        limit = video_array_2[len(video_array_2) - 1, 0]
+        limit = video_array_2[len(video_array_2) - 1][0]
         
         # slice of video_array_1 to be compared
-        if end >= video_array_1[len(video_array_1) - 1, 0]:
-            array_slice_1 = self.split_window(video_array_1, start, video_array_1[len(video_array_1) - 1, 0])
+        if end >= video_array_1[len(video_array_1) - 1][0]:
+            array_slice_1 = self.split_window(video_array_1, start, video_array_1[len(video_array_1) - 1][0])
         else:
             array_slice_1 = self.split_window(video_array_1, start, end)
 
@@ -66,7 +66,7 @@ class SiftSimilarity:
             array_slice_2 = self.split_window(video_array_2, start, end)
             # get the distance measure
             for i in range(min(len(array_slice_1), len(array_slice_2))):            
-                chebyshev_similarity += distance.chebyshev(array_slice_1[i,:], array_slice_2[i,:])
+                chebyshev_similarity += distance.chebyshev(array_slice_1[i], array_slice_2[i])
             chebyshev_similarity = chebyshev_similarity / min(len(array_slice_1), len(array_slice_2))
         
             # add distance, start, end to max heap
@@ -87,7 +87,7 @@ class SiftSimilarity:
         j = 0
         while i < len(array_2) and j < len(array_1):
             if video_array_2[i,0] >= frame_start:
-                chebyshev_similarity += distance.chebyshev(array_1[j,:], array_2[i,:])
+                chebyshev_similarity += distance.chebyshev(array_1[j], array_2[i])
                 j += 1
             i += 1
         final_similarity = chebyshev_similarity / j
@@ -102,11 +102,11 @@ class SiftSimilarity:
         end = start + slice_length
         manhattan_similarity = 0
         # last frame number
-        limit = video_array_2[len(video_array_2) - 1, 0]
+        limit = video_array_2[len(video_array_2) - 1][0]
         
         # slice of video_array_1 to be compared
-        if end >= video_array_1[len(video_array_1) - 1, 0]:
-            array_slice_1 = self.split_window(video_array_1, start, video_array_1[len(video_array_1) - 1, 0])
+        if end >= video_array_1[len(video_array_1) - 1][0]:
+            array_slice_1 = self.split_window(video_array_1, start, video_array_1[len(video_array_1) - 1][0])
         else:
             array_slice_1 = self.split_window(video_array_1, start, end)
 
@@ -118,7 +118,7 @@ class SiftSimilarity:
             array_slice_2 = self.split_window(video_array_2, start, end)
             # get the distance measure
             for i in range(min(len(array_slice_1), len(array_slice_2))):            
-                manhattan_similarity += distance.cityblock(array_slice_1[i,:], array_slice_2[i,:])
+                manhattan_similarity += distance.cityblock(array_slice_1[i], array_slice_2[i])
             manhattan_similarity = manhattan_similarity / min(len(array_slice_1), len(array_slice_2))
         
             # add distance, start, end to max heap
@@ -141,7 +141,7 @@ class SiftSimilarity:
         manhattan_similarity = 0
         while i < len(array_2) and j < len(array_1):
             if video_array_2[i,0] >= frame_start:
-                manhattan_similarity += distance.cityblock(array_1[j,:], array_2[i,:])
+                manhattan_similarity += distance.cityblock(array_1[j], array_2[i])
                 j += 1
             i += 1
         final_similarity = manhattan_similarity / j
@@ -158,11 +158,11 @@ class SiftSimilarity:
         end = start + slice_length
         manhattan_similarity = 0
         # last frame number
-        limit = video_array_2[len(video_array_2) - 1, 0]
+        limit = video_array_2[len(video_array_2) - 1][0]
         
         # slice of video_array_1 to be compared
-        if end >= video_array_1[len(video_array_1) - 1, 0]:
-            array_slice_1 = self.split_window(video_array_1, start, video_array_1[len(video_array_1) - 1, 0])
+        if end >= video_array_1[len(video_array_1) - 1][0]:
+            array_slice_1 = self.split_window(video_array_1, start, video_array_1[len(video_array_1) - 1][0])
         else:
             array_slice_1 = self.split_window(video_array_1, start, end)
 
@@ -174,7 +174,7 @@ class SiftSimilarity:
             array_slice_2 = self.split_window(video_array_2, start, end)
             # get the distance measure
             for i in range(min(len(array_slice_1), len(array_slice_2))):            
-                manhattan_similarity += distance.cityblock(array_slice_1[i,:], array_slice_2[i,:])
+                manhattan_similarity += distance.cityblock(array_slice_1[i], array_slice_2[i])
             manhattan_similarity = manhattan_similarity / min(len(array_slice_1), len(array_slice_2))
         
             # add distance, start, end to max heap
@@ -197,7 +197,7 @@ class SiftSimilarity:
         manhattan_similarity = 0
         while i < len(array_2) and j < len(array_1):
             if video_array_2[i,0] >= frame_start:
-                manhattan_similarity += distance.cityblock(array_1[j,:], array_2[i,:])
+                manhattan_similarity += distance.cityblock(array_1[j], array_2[i])
                 j += 1
             i += 1
         final_similarity = manhattan_similarity / j
@@ -216,8 +216,8 @@ class SiftSimilarity:
         limit = video_array_2[len(video_array_2) - 1][0]
         
         # slice of video_array_1 to be compared
-        if end >= video_array_1[len(video_array_1) - 1, 0]:
-            array_slice_1 = self.split_window(video_array_1, start, video_array_1[len(video_array_1) - 1, 0])
+        if end >= video_array_1[len(video_array_1) -1 ][0]:
+            array_slice_1 = self.split_window(video_array_1, start, video_array_1[len(video_array_1) - 1][0])
         else:
             array_slice_1 = self.split_window(video_array_1, start, end)
 
@@ -229,7 +229,7 @@ class SiftSimilarity:
             array_slice_2 = self.split_window(video_array_2, start, end)
             # get the distance measure
             for i in range(min(len(array_slice_1), len(array_slice_2))):            
-                chebyshev_similarity += distance.chebyshev(array_slice_1[i,:], array_slice_2[i,:])
+                chebyshev_similarity += distance.chebyshev(array_slice_1[i], array_slice_2[i])
             if min(len(array_slice_1), len(array_slice_2)) is not 0:
                 chebyshev_similarity = chebyshev_similarity / min(len(array_slice_1), len(array_slice_2))
         
@@ -251,7 +251,7 @@ class SiftSimilarity:
         j = 0
         while i < len(array_2) and j < len(array_1):
             if video_array_2[i,0] >= frame_start:
-                chebyshev_similarity += distance.chebyshev(array_1[j,:], array_2[i,:])
+                chebyshev_similarity += distance.chebyshev(array_1[j], array_2[i])
                 j += 1
             i += 1
         final_similarity = chebyshev_similarity / j
@@ -265,12 +265,12 @@ class SiftSimilarity:
     '''
     def split_window(self, input_video_array, start, end):
         # empty numpy array
-        window_slice = np.empty(shape=(0,132))
+        window_slice = []
         i = 0
         # splits by including the start and end frame numbers
         for i in range(len(input_video_array)):
             if input_video_array[i][0] > start and input_video_array[i][0] <= end:
-                window_slice = np.vstack([window_slice, input_video_array[i,2:]])
+                window_slice.append(input_video_array[i])
         return window_slice
 
     def get_sift_manhattan(self, in_file, video_file_name_1, video_file_name_2, start_index, end_index):
@@ -282,18 +282,18 @@ class SiftSimilarity:
         mv = SiftVectorHelper(in_file, video_file_name_1, video_file_name_2)
         array_1, array_2 = mv.parseFile()
         self.chebyshev_siftvector_similarity(array_1, array_2, start_index, end_index)
+if __name__== "__main__":
+    in_file = raw_input("Enter the absolute path for .mvect file:")
+    video_file_name_1 = raw_input("Enter the file name for the first video(with extension):")
+    video_file_name_2 = raw_input("Enter the file name for the second video(with extension):")
 
-in_file = raw_input("Enter the absolute path for .mvect file:")
-video_file_name_1 = raw_input("Enter the file name for the first video(with extension):")
-video_file_name_2 = raw_input("Enter the file name for the second video(with extension):")
+    sv = SiftVectorHelper(in_file, video_file_name_1, video_file_name_2)
+    array_1, array_2 = sv.parseFile()
 
-sv = SiftVectorHelper(in_file, video_file_name_1, video_file_name_2)
-array_1, array_2 = sv.parseFile()
-
-ms = SiftSimilarity()
-similarity, sorted_list = ms.chebyshev_siftvector_similarity(array_1, array_2)
-print "Similarity"
-print similarity
+    ms = SiftSimilarity()
+    similarity, sorted_list = ms.chebyshev_siftvector_similarity(array_1, array_2)
+    print "Similarity"
+    print similarity
 
 
 
