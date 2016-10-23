@@ -54,15 +54,15 @@ class PCA:
 if __name__ == "__main__":
     __file_path = raw_input("input file path: ")
     __new_dimensions = raw_input("Enter value of d: ")
-    __out_file = raw_input("enter output file name without extension: ")
+    __out_file = __file_path.rpartition('.')[0] + "_" + str(__new_dimensions)
     __ext = ""
 
     if __file_path.endswith(".chst"):
-        __ext = ".ckm"
+        __ext = ".cpca"
     elif __file_path.endswith(".sift"):
-        __ext = ".skm"
+        __ext = ".spca"
     elif __file_path.endswith(".mvect"):
-        __ext = ".mkm"
+        __ext = ".mpca"
 
     helper = Helper()
 
@@ -73,6 +73,10 @@ if __name__ == "__main__":
 
     __feature_scores, __new_features = PCA.pca_transform(__input_features, int(__new_dimensions))
     __new_hist_data = PCA.replace_original_features(__formatted_input_data,__new_features)
+
+    print "scores of each feature as tuples (original_index, feature_score): "
+    print(__feature_scores)
+
     __file_name = __out_file + __ext
     __file_stream = open(__file_name, "a")
 

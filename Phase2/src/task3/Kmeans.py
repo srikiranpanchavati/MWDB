@@ -41,7 +41,7 @@ class KmeansReduction:
 if __name__ == "__main__":
     __file_path = raw_input("input file path: ")
     __new_dimensions = raw_input("Enter value of d: ")
-    __out_file = raw_input("enter output file name without extension: ")
+    __out_file = __file_path.rpartition('.')[0] + "_" + str(__new_dimensions)
     __ext = ""
 
     if __file_path.endswith(".chst"):
@@ -62,6 +62,9 @@ if __name__ == "__main__":
     __new_hist_data = PCA.replace_original_features(__formatted_input_data,__new_features)
     __file_name = __out_file + __ext
     __file_stream = open(__file_name, "a")
+
+    print "scores of each feature as tuples (original_index, feature_score): "
+    print(__feature_scores)
 
     for data in __new_hist_data:
         data[3] = "[" + ",".join(str(x) for x in data[3]) + "]"
