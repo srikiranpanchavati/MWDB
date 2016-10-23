@@ -27,7 +27,7 @@ class SiftSimilarity:
     '''
 
     ''' This method has been rewritten with more precision
-    def chebyshev_siftvector_similarity(self, array_1, array_2):
+    def chebyshev_siftvector_similarity_2(self, array_1, array_2):
         i = 0
         chebyshev_similarity = 0
         for i in range(min(len(array_1), len(array_2))):            
@@ -85,9 +85,9 @@ class SiftSimilarity:
 
         i = 0
         j = 0
-        while i < len(array_2) and j < len(array_1):
+        while i < len(video_array_2) and j < len(video_array_1):
             if video_array_2[i,0] >= frame_start:
-                chebyshev_similarity += distance.chebyshev(array_1[j], array_2[i])
+                chebyshev_similarity += distance.chebyshev(video_array_1[j], video_array_2[i])
                 j += 1
             i += 1
         final_similarity = chebyshev_similarity / j
@@ -139,9 +139,9 @@ class SiftSimilarity:
         i = 0
         j = 0
         manhattan_similarity = 0
-        while i < len(array_2) and j < len(array_1):
+        while i < len(video_array_2) and j < len(video_array_1):
             if video_array_2[i,0] >= frame_start:
-                manhattan_similarity += distance.cityblock(array_1[j], array_2[i])
+                manhattan_similarity += distance.cityblock(video_array_1[j], video_array_2[i])
                 j += 1
             i += 1
         final_similarity = manhattan_similarity / j
@@ -152,7 +152,7 @@ class SiftSimilarity:
         Overloaded manhattan distance function for TASK 1
         Input: array_1, array_2
     '''
-    def manhattan_siftvector_similarity(self, video_array_1, video_array_2):
+    def manhattan_siftvector_similarity_2(self, video_array_1, video_array_2):
         slice_length = 10
         start = 0
         end = start + slice_length
@@ -195,9 +195,9 @@ class SiftSimilarity:
         i = 0
         j = 0
         manhattan_similarity = 0
-        while i < len(array_2) and j < len(array_1):
+        while i < len(video_array_2) and j < len(video_array_1):
             if video_array_2[i,0] >= frame_start:
-                manhattan_similarity += distance.cityblock(array_1[j], array_2[i])
+                manhattan_similarity += distance.cityblock(video_array_1[j], video_array_2[i])
                 j += 1
             i += 1
         final_similarity = manhattan_similarity / j
@@ -207,7 +207,7 @@ class SiftSimilarity:
         Overloaded Chebyshev distance function for TASK 1
         Input: array_1, array_2 
     '''
-    def chebyshev_siftvector_similarity(self, video_array_1, video_array_2):
+    def chebyshev_siftvector_similarity_2(self, video_array_1, video_array_2):
         slice_length = 10
         start = 0
         end = start + slice_length
@@ -249,9 +249,9 @@ class SiftSimilarity:
 
         i = 0
         j = 0
-        while i < len(array_2) and j < len(array_1):
+        while i < len(video_array_2) and j < len(video_array_1):
             if video_array_2[i,0] >= frame_start:
-                chebyshev_similarity += distance.chebyshev(array_1[j], array_2[i])
+                chebyshev_similarity += distance.chebyshev(video_array_1[j], video_array_2[i])
                 j += 1
             i += 1
         final_similarity = chebyshev_similarity / j
@@ -276,22 +276,24 @@ class SiftSimilarity:
     def get_sift_manhattan(self, in_file, video_file_name_1, video_file_name_2, start_index, end_index):
         mv = SiftVectorHelper(in_file, video_file_name_1, video_file_name_2)
         array_1, array_2 = mv.parseFile()
-        self.manhattan_siftvector_similarity(array_1, array_2, start_index, end_index)
+        similarity, sorted_list = self.manhattan_siftvector_similarity(array_1, array_2, start_index, end_index)
+        return sorted_list
 
     def get_sift_chebyshev(self, in_file, video_file_name_1, video_file_name_2, start_index, end_index):
         mv = SiftVectorHelper(in_file, video_file_name_1, video_file_name_2)
         array_1, array_2 = mv.parseFile()
-        self.chebyshev_siftvector_similarity(array_1, array_2, start_index, end_index)
+        similarity, sorted_list = self.chebyshev_siftvector_similarity(array_1, array_2, start_index, end_index)
+        return sorted_list
 if __name__== "__main__":
     in_file = raw_input("Enter the absolute path for .mvect file:")
     video_file_name_1 = raw_input("Enter the file name for the first video(with extension):")
     video_file_name_2 = raw_input("Enter the file name for the second video(with extension):")
 
     sv = SiftVectorHelper(in_file, video_file_name_1, video_file_name_2)
-    array_1, array_2 = sv.parseFile()
+    video_array_1, video_array_2 = sv.parseFile()
 
     ms = SiftSimilarity()
-    similarity, sorted_list = ms.chebyshev_siftvector_similarity(array_1, array_2)
+    similarity, sorted_list = ms.chebyshev_siftvector_similarity_2(video_array_1, video_array_2)
     print "Similarity"
     print similarity
 
