@@ -1,0 +1,16 @@
+Method to get manhattan distance for motion vectors
+input parameters: 
+	in_file -  the path for infile.mvect
+	video_file_name_1 - name of the first video
+	video_file_name_2 - name of the second video
+	start_index - a
+	end_index - b
+output parameters:
+	sorted list of lists
+	index		    -    0     |  1	   |2
+	--------------------+----------+-----------+---------
+	list entry structure -distance |start_index|  end_index
+
+def get_motion_manhattan(self, in_file, video_file_name_1, video_file_name_2, start_index, end_index):
+
+def get_motion_chebyshev(self, in_file, video_file_name_1, video_file_name_2, start_index, end_index):
