@@ -31,7 +31,7 @@ class MotionVectorHelper(object):
                 motion_vector = self.parseMotionVectors(raw_data_array[3])
                 # the block is ignored here
                 frame_and_block = raw_data_array[1:2]
-                final_list = frame_and_block + np.ndarray.tolist(motion_vector)
+                final_list = frame_and_block + motion_vector
                 
                 '''place the data in the respective numpy arrays'''
                 final_list = map(int, final_list)

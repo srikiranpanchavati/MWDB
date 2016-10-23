@@ -58,6 +58,7 @@ class SubsequenceSearch:
                 file_names.append(in_file)
 
         results = []
+        sorted_results = []
         if(self.method_name == "HISTOGRAM_SIM1"):
             for name in file_names:
                 pass
@@ -75,18 +76,20 @@ class SubsequenceSearch:
             for name in file_names:
                 temp = mvsim.get_motion_manhattan(self.fetures_path, self.video_name, name, self.a, self.b)[0]
                 results.append((name, temp[0], temp[1], temp[2]))
+            sorted_results = sorted(results, key=lambda x: x[1])
         elif(self.method_name == "MOTION_SIM2"):
             mvsim = MotionVectorSimilarity()
             for name in file_names:
                 temp = mvsim.get_motion_chebyshev(self.fetures_path, self.video_name, name, self.a, self.b)[0]
                 results.append((name, temp[0], temp[1], temp[2]))
+            sorted_results = sorted(results, key=lambda x: x[1])
         elif(self.method_name == "OVERALL_SIM1"):
             for name in file_names:
                 pass
         elif(self.method_name == "OVERALL_SIM2"):
             for name in file_names:
                 pass
-        sorted_results = sorted(results, key=lambda x: x[1], reverse=True)
+
         for i in range (0, self.k):
             self.save_video_sequence(sorted_results[i][0],sorted_results[i][2], sorted_results[i][3], i+1)
         print sorted_results
