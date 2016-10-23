@@ -2,6 +2,7 @@
 
 import numpy
 from itertools import islice
+from sklearn.preprocessing import StandardScaler
 
 class SiftVectorHelper(object):
     def __init__(self, in_file, video_file_1, video_file_2):
@@ -47,10 +48,14 @@ class SiftVectorHelper(object):
                 else:
                     video_array_2.append(feature)
 
+                if not video_array_2:
+                    video_array_2 = video_array_1
+
 
         # print len(video_array_1)
         # print len(video_array_2)
-        return video_array_1, video_array_2
+        return numpy.array(video_array_1), numpy.array(video_array_2)
+
 
 
                 # video_file_names = [self.video_file_name_1, self.video_file_name_2]
