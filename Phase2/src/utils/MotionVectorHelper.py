@@ -37,14 +37,11 @@ class MotionVectorHelper(object):
                     video_array_1 = np.vstack([video_array_1, final_list])
                 else:
                     video_array_2 = np.vstack([video_array_2, final_list])
-            
+
             current_line = input_file_handle.readline()
-            current_line = input_file_handle.readline()
-            
         return video_array_1.astype(int), video_array_2.astype(int)
             
         
-
     def parseMotionVectors(self, input_string):
         '''clean the motion vector'''
         characters = ['\n',' ']
