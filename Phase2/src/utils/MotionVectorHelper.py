@@ -40,9 +40,8 @@ class MotionVectorHelper(object):
             
             current_line = input_file_handle.readline()
             current_line = input_file_handle.readline()
-            print "In while loop iteration: %d" %(i)
-
-        return video_array_1, video_array_2
+            
+        return video_array_1.astype(int), video_array_2.astype(int)
             
         
 
