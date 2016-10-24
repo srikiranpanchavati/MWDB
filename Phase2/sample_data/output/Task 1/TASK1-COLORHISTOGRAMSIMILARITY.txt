@@ -1,0 +1,94 @@
+SAMPLE INPUT AND OUTPUT FOR TASK 1 - COLOR HISTOGRAM SIMILARITY
+______________________________________________________________
+Correlation Execution:
+**********************
+Enter color histogram file name(absolute path): D:\Education\ASU\MWD\files\phase2videos.chst
+Enter video1 name with extension: TR_BL_TM_BR_75_25_Noise.mp4
+Enter video2 name with extension: 6x_SQ_BL_TM_BR_Check.mp4
+Enter your choice 
+1.Correlation 
+2.Chisquare 
+3.Intersect 
+4.Bhattacharya 
+5.Euclidean 
+6.Manhattan: 1
+The histogram similarity based on correlation for TR_BL_TM_BR_75_25_Noise.mp4 and 6x_SQ_BL_TM_BR_Check.mp4 is 
+-0.769461419993
+
+Chisquare Execution:
+********************
+Enter color histogram file name(absolute path): D:\Education\ASU\MWD\files\phase2videos.chst
+Enter video1 name with extension: TR_BL_TM_BR_75_25_Noise.mp4
+Enter video2 name with extension: 6x_SQ_BL_TM_BR_Check.mp4
+Enter your choice 
+1.Correlation 
+2.Chisquare 
+3.Intersect 
+4.Bhattacharya 
+5.Euclidean 
+6.Manhattan: 2
+The histogram similarity based on chisquare for TR_BL_TM_BR_75_25_Noise.mp4 and 6x_SQ_BL_TM_BR_Check.mp4 is 
+116744.188484
+
+Intersect Execution:
+********************
+Enter color histogram file name(absolute path): D:\Education\ASU\MWD\files\phase2videos.chst
+Enter video1 name with extension: 6x_SQ_BL_TM_BR_Check.mp4
+Enter video2 name with extension: 6x_SQ_BL_TM_BR_Check.mp4
+Enter your choice 
+1.Correlation 
+2.Chisquare 
+3.Intersect 
+4.Bhattacharya 
+5.Euclidean 
+6.Manhattan: 3
+The histogram similarity based on intersect for 6x_SQ_BL_TM_BR_Check.mp4 and 6x_SQ_BL_TM_BR_Check.mp4 is 
+[ 1.]
+
+Bhattacharya Execution:
+***********************
+Enter color histogram file name(absolute path): D:\Education\ASU\MWD\files\phase2videos.chst
+Enter video1 name with extension: TR_TL_BR_Check.mp4
+Enter video2 name with extension: SQ_BL_TM_BR_50_50_Noise.mp4
+Enter your choice 
+1.Correlation 
+2.Chisquare 
+3.Intersect 
+4.Bhattacharya 
+5.Euclidean 
+6.Manhattan: 4
+The histogram similarity based on bhattacharya for TR_TL_BR_Check.mp4 and SQ_BL_TM_BR_50_50_Noise.mp4 is 
+0.748052568218
+
+Euclidean Execution:
+********************
+Enter color histogram file name(absolute path): D:\Education\ASU\MWD\files\phase2videos.chst
+Enter video1 name with extension: TR_TL_BR_Check.mp4
+Enter video2 name with extension: TR_TL_BR_Check.mp4
+Enter your choice 
+1.Correlation 
+2.Chisquare 
+3.Intersect 
+4.Bhattacharya 
+5.Euclidean 
+6.Manhattan: 5
+The histogram similarity based on euclidean for TR_TL_BR_Check.mp4 and TR_TL_BR_Check.mp4 is 
+0.0
+
+Manhattan Execution:
+********************
+Enter color histogram file name(absolute path): D:\Education\ASU\MWD\files\phase2videos.chst
+Enter video1 name with extension: SQ_BL_TM_BR_50_50_Noise.mp4
+Enter video2 name with extension: TR_BL_TM_BR_75_25_Noise.mp4
+Enter your choice 
+1.Correlation 
+2.Chisquare 
+3.Intersect 
+4.Bhattacharya 
+5.Euclidean 
+6.Manhattan: 6
+The histogram similarity based on manhattan for SQ_BL_TM_BR_50_50_Noise.mp4 and TR_BL_TM_BR_75_25_Noise.mp4 is 
+340.43877551
+
+
+

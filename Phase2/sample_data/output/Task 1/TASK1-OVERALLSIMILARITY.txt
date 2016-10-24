@@ -1,0 +1,26 @@
+SAMPLE INPUT AND OUTPUT FOR TASK 1 - OVERALL SIMILARITY
+______________________________________________________________
+Manhattan Execution:
+********************
+Enter color histogram file name(absolute path): D:\Education\ASU\MWD\files\phase2videos.chst
+Enter sift vectors file name(absolute path): D:\Education\ASU\MWD\files\phase2videos.sift
+Enter video1 name with extension: 6x_SQ_BL_TM_BR_Check.mp4
+Enter video2 name with extension: 6x_SQ_BL_TM_BR_Noise.mp4
+Enter your choice 
+1.Manhattan 
+2.Minkowski : 1
+The overall similarity distance based on manhattan for 6x_SQ_BL_TM_BR_Check.mp4 and 6x_SQ_BL_TM_BR_Noise.mp4 is 
+10163949.6843
+
+Minkowski Execution:
+********************
+Enter color histogram file name(absolute path): D:\Education\ASU\MWD\files\phase2videos.chst
+Enter sift vectors file name(absolute path): D:\Education\ASU\MWD\files\phase2videos.sift
+Enter video1 name with extension: TR_BL_TM_BR_75_25_Noise.mp4
+Enter video2 name with extension: 6x_SQ_BL_TM_BR_Check.mp4
+Enter your choice 
+1.Manhattan 
+2.Minkowski : 2
+The overall similarity distance based on minkowski for TR_BL_TM_BR_75_25_Noise.mp4 and 6x_SQ_BL_TM_BR_Check.mp4 is 
+1658270.60855
+

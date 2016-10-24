@@ -6,8 +6,8 @@ from scipy import spatial
 
 class OverallSimilarity:
     """
-    overall similarity is defined as the percentage of visually similar frames shared between two video sequences
-    The attributes we are considering here are color and sift features
+    Gives the overall similarity measure between two videos based on color histogram similarity and sift
+    vectors similarity by using Manhattan and Minkowski distance metrics.
     """
 
     def __init__(self, video1_hists, video2_hists, video1_sift_vectors, video2_sift_vectors):
