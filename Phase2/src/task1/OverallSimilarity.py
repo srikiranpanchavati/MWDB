@@ -57,8 +57,8 @@ class OverallSimilarity:
         for i, j in zip(range(0, len1), range(0, len2, step)):
             x = small_video_hists[i]  # list of histogram cells for a frame
             for k in range(j, j + step):
-                y = large_video_hists[k]  # list of histogram cells for a frame
                 if k < len2:
+                    y = large_video_hists[k]  # list of histogram cells for a frame
                     for p, q in zip(x, y):
                         similarity += scipy.spatial.distance.cityblock(p, q)
                         count += 1
@@ -77,8 +77,8 @@ class OverallSimilarity:
         for i, j in zip(range(0, len1), range(0, len2, step)):
             x = small_video_sifts[i]  # list of histogram cells for a frame
             for k in range(j, j + step):
-                y = large_video_sifts[k]  # list of histogram cells for a frame
                 if k < len2:
+                    y = large_video_sifts[k]  # list of histogram cells for a frame
                     for p, q in zip(x, y):
                         similarity += scipy.spatial.distance.cityblock(p, q)
                         count += 1
@@ -98,8 +98,8 @@ class OverallSimilarity:
         for i, j in zip(range(0, len1), range(0, len2, step)):
             x = small_video_hists[i]  # list of histogram cells for a frame
             for k in range(j, j + step):
-                y = large_video_hists[k]  # list of histogram cells for a frame
                 if k < len2:
+                    y = large_video_hists[k]  # list of histogram cells for a frame
                     for p, q in zip(x, y):
                         similarity += scipy.spatial.distance.minkowski(p, q, 3)
                         count += 1
@@ -118,8 +118,8 @@ class OverallSimilarity:
         for i, j in zip(range(0, len1), range(0, len2, step)):
             x = small_video_sifts[i]  # list of histogram cells for a frame
             for k in range(j, j + step):
-                y = large_video_sifts[k]  # list of histogram cells for a frame
                 if k < len2:
+                    y = large_video_sifts[k]  # list of histogram cells for a frame
                     for p, q in zip(x, y):
                         similarity += scipy.spatial.distance.minkowski(p, q, 3)
                         count += 1
@@ -175,9 +175,9 @@ if __name__ == "__main__":
     similarity_obj = OverallSimilarity(video1_hists, video2_hists, video1_sift_vectors, video2_sift_vectors)
     result = similarity_obj.find_similarity(option)
     if option == "1":
-        print "The overall similarity distance based on manhattan is :"
+        print "The overall similarity distance based on manhattan for " + video1_name + " and " +video2_name + " is "
     else:
-        print "The overall similarity distance based on minkowski is :"
+        print "The overall similarity distance based on minkowski for " + video1_name + " and " + video2_name + " is "
     print result
 
 

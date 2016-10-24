@@ -38,11 +38,12 @@ class HistogramSimilarity:
         for i, j in zip(range(0, l1), range(0, l2, step)):
             x = first[i]  # list of histogram cells for a frame
             for k in range(j, j + step):
-                y = second[k]  # list of histogram cells for a frame
-                for p, q in zip(x, y):
-                    result = cv2.compareHist(p, q, cv2.cv.CV_COMP_CORREL)
-                    sum += result
-                    count += 1
+                if k < l2:
+                    y = second[k]  # list of histogram cells for a frame
+                    for p, q in zip(x, y):
+                        result = cv2.compareHist(p, q, cv2.cv.CV_COMP_CORREL)
+                        sum += result
+                        count += 1
         return str(sum / count)
 
     def compute_similarity_chisquare(self, hist_video1, hist_video2):
@@ -64,11 +65,12 @@ class HistogramSimilarity:
         for i, j in zip(range(0, l1), range(0, l2, step)):
             x = first[i]  # list of histogram cells for a frame
             for k in range(j, j + step):
-                y = second[k]  # list of histogram cells for a frame
-                for p, q in zip(x, y):
-                    result = cv2.compareHist(p, q, cv2.cv.CV_COMP_CHISQR)
-                    sum += result
-                    count += 1
+                if k < l2:
+                    y = second[k]  # list of histogram cells for a frame
+                    for p, q in zip(x, y):
+                        result = cv2.compareHist(p, q, cv2.cv.CV_COMP_CHISQR)
+                        sum += result
+                        count += 1
         return str(sum / count)
 
     def compute_similarity_intersect(self, hist_video1, hist_video2):
@@ -91,12 +93,13 @@ class HistogramSimilarity:
         for i, j in zip(range(0, l1), range(0, l2, step)):
             x = first[i]  # list of histogram cells for a frame
             for k in range(j, j + step):
-                y = second[k]  # list of histogram cells for a frame
-                for p, q in zip(x, y):
-                    result = cv2.compareHist(p, q, cv2.cv.CV_COMP_INTERSECT)
-                    sum1 += result
-                    sum2 += sum(p) + sum(q) - result
-                    count += 1
+                if k < l2:
+                    y = second[k]  # list of histogram cells for a frame
+                    for p, q in zip(x, y):
+                        result = cv2.compareHist(p, q, cv2.cv.CV_COMP_INTERSECT)
+                        sum1 += result
+                        sum2 += sum(p) + sum(q) - result
+                        count += 1
         return str(sum1 / sum2)
 
     def compute_similarity_bhattacharya(self, hist_video1, hist_video2):
@@ -118,11 +121,12 @@ class HistogramSimilarity:
         for i, j in zip(range(0, l1), range(0, l2, step)):
             x = first[i]  # list of histogram cells for a frame
             for k in range(j, j + step):
-                y = second[k]  # list of histogram cells for a frame
-                for p, q in zip(x, y):
-                    result = cv2.compareHist(p, q, cv2.cv.CV_COMP_BHATTACHARYYA)
-                    sum += result
-                    count += 1
+                if k < l2:
+                    y = second[k]  # list of histogram cells for a frame
+                    for p, q in zip(x, y):
+                        result = cv2.compareHist(p, q, cv2.cv.CV_COMP_BHATTACHARYYA)
+                        sum += result
+                        count += 1
         return str(sum / count)
 
 
@@ -145,11 +149,12 @@ class HistogramSimilarity:
         for i, j in zip(range(0, l1), range(0, l2, step)):
             x = first[i]  # list of histogram cells for a frame
             for k in range(j, j + step):
-                y = second[k]  # list of histogram cells for a frame
-                for p, q in zip(x, y):
-                    result = scipy.spatial.distance.euclidean(p, q)
-                    sum += result
-                    count += 1
+                if k < l2:
+                    y = second[k]  # list of histogram cells for a frame
+                    for p, q in zip(x, y):
+                        result = scipy.spatial.distance.euclidean(p, q)
+                        sum += result
+                        count += 1
         return str(sum / count)
 
 
@@ -172,11 +177,12 @@ class HistogramSimilarity:
         for i, j in zip(range(0, l1), range(0, l2, step)):
             x = first[i]  # list of histogram cells for a frame
             for k in range(j, j + step):
-                y = second[k]  # list of histogram cells for a frame
-                for p, q in zip(x, y):
-                    result = scipy.spatial.distance.cityblock(p, q)
-                    sum += result
-                    count += 1
+                if k < l2:
+                    y = second[k]  # list of histogram cells for a frame
+                    for p, q in zip(x, y):
+                        result = scipy.spatial.distance.cityblock(p, q)
+                        sum += result
+                        count += 1
         return str(sum / count)
 
     def find_correlation_similarity_for_subsequence(self, hist_file_path, video1_name, video2_name, a, b):
@@ -220,22 +226,22 @@ if __name__ == "__main__":
     result = 0.0
     if option == "1":
         result = similarity_obj.compute_similarity_correlation(video1_hists, video2_hists)
-        print "The histogram similarity based on correlation is "
+        print "The histogram similarity based on correlation for " + video1_name + " and " +video2_name + " is "
     elif option == "2":
         result = similarity_obj.compute_similarity_chisquare(video1_hists, video2_hists)
-        print "The histogram similarity based on chisquare is "
+        print "The histogram similarity based on chisquare for " + video1_name + " and " +video2_name + " is "
     elif option == "3":
         result = similarity_obj.compute_similarity_intersect(video1_hists, video2_hists)
-        print "The histogram similarity based on intersect is "
+        print "The histogram similarity based on intersect for " + video1_name + " and " +video2_name + " is "
     elif option == "4":
         result = similarity_obj.compute_similarity_bhattacharya(video1_hists, video2_hists)
-        print "The histogram similarity based on bhattacharya is "
+        print "The histogram similarity based on bhattacharya for " + video1_name + " and " +video2_name + " is "
     elif option == "5":
         result = similarity_obj.compute_similarity_euclidean(video1_hists, video2_hists)
-        print "The histogram similarity based on euclidean is "
+        print "The histogram similarity based on euclidean for " + video1_name + " and " +video2_name + " is "
     elif option == "6":
         result = similarity_obj.compute_similarity_manhattan(video1_hists, video2_hists)
-        print "The histogram similarity based on manhattan is "
+        print "The histogram similarity based on manhattan for " + video1_name + " and " +video2_name + " is "
     print result
 
 
