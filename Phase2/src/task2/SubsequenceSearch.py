@@ -1,13 +1,15 @@
 import cv2
 import os
 from Phase2.src.task1.MotionVectorSimilarity import MotionVectorSimilarity
+from Phase2.src.task1.OverallSimilarity import OverallSimilarity
+from Phase2.src.task1.SiftSimilarity import SiftSimilarity
 
 # This task takes an input video range compares with remaining videos in the database and returns k most similar
 # video ranges in the given database and saves it to a specific folder to visualise
 class SubsequenceSearch:
 
     # Constructor to subsequence search to initalize required data.
-    def __init__(self, path=None, video=None, feature_path=None, method=None, start=0, end=0, k=0):
+    def __init__(self, path=None, video=None, feature_path=None, feature_path2=None, method=None, start=0, end=0, k=0):
         self.directory_path = path
         self.video_name = video
         self.method_name = method
@@ -15,6 +17,7 @@ class SubsequenceSearch:
         self.b = end
         self.k = k
         self.fetures_path = feature_path
+        self.fetures_path2 = feature_path2
         self.out_path = os.path.join(self.directory_path, self.video_name.split(".")[0])
         if not os.path.exists(self.out_path):
             os.makedirs(self.out_path)
@@ -76,11 +79,17 @@ class SubsequenceSearch:
             for name in file_names:
                 pass
         elif(self.method_name == "SIFT_SIM1"):
+            sift_sim1 = SiftSimilarity()
             for name in file_names:
-                pass
+                temp = sift_sim1.get_sift_chebyshev(self.fetures_path, self.video_name, name, self.a, self.b)[0]
+                results.append((name, temp[0], temp[1], temp[2]))
+            sorted_results = sorted(results, key=lambda x: x[1])
         elif(self.method_name == "SIFT_SIM2"):
+            sift_sim1 = SiftSimilarity()
             for name in file_names:
-                pass
+                temp = sift_sim1.get_sift_manhattan(self.fetures_path, self.video_name, name, self.a, self.b)[0]
+                results.append((name, temp[0], temp[1], temp[2]))
+            sorted_results = sorted(results, key=lambda x: x[1])
         elif(self.method_name == "MOTION_SIM1"):
             mvsim = MotionVectorSimilarity()
             for name in file_names:
@@ -94,8 +103,12 @@ class SubsequenceSearch:
                 results.append((name, temp[0], temp[1], temp[2]))
             sorted_results = sorted(results, key=lambda x: x[1])
         elif(self.method_name == "OVERALL_SIM1"):
+            overall_sim = OverallSimilarity(None, None, None, None)
             for name in file_names:
-                pass
+                temp = overall_sim.find_manhattan_similarity_for_subsequence(self.fetures_path, self.fetures_path2, self.video_name, name, self.a, self.b)[0]
+                results.append((name, temp[0], temp[1][0], temp[1][1]))
+            sorted_results = sorted(results, key=lambda x: x[1])
+            print sorted_results
         elif(self.method_name == "OVERALL_SIM2"):
             for name in file_names:
                 pass
@@ -108,12 +121,15 @@ class SubsequenceSearch:
 if __name__ == "__main__":
     dir_path = "C:\\Users\\Giridhar\\Desktop\\MWDB Project\\P2DemoVideos"#raw_input("Enter input directory path: ")
     vname = "6x_SQ_TL_BR_Check.mp4" #raw_input("Enter video file name: ")
-    method_name = "MOTION_SIM1"#raw_input("Enter method name to be used for search: ")
+    method_name = "SIFT_SIM2"#raw_input("Enter method name to be used for search: ")
     start_index = 1#raw_input("Enter start frame number: ")
     end_index = 15#raw_input("Enter end frame number: ")
     no_of_sequences = 5#raw_input("Enter number of sequences (K): ")
-    feature_file  = "C:\\Users\\Giridhar\\Desktop\\MWDB Project\\MWDB\\Phase2\\sample_data\\input\\motionVector_2r.mvect"#raw_input("Enter feature file path: ")
+    feature_file  = "C:\\Users\\Giridhar\\Desktop\\MWDB Project\\phase2videos_50.spca"#raw_input("Enter feature file path: ")
+    feature_file2 = None
+    if "OVERALL" in method_name:
+        feature_file2 = "D:\\Education\\ASU\\MWD\\files\\phase2videos.sift"  # raw_input("Enter feature file path: ")
 
-    ssearch = SubsequenceSearch(dir_path, vname, feature_file, method_name, int(start_index), int(end_index), int(no_of_sequences))
+    ssearch = SubsequenceSearch(dir_path, vname, feature_file, feature_file2, method_name, int(start_index), int(end_index), int(no_of_sequences))
     ssearch.save_video_sequence(None, start_index, end_index)
     ssearch.find_similar_frames()
