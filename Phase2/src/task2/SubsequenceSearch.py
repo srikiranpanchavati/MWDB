@@ -129,7 +129,7 @@ class SubsequenceSearch:
                                                                              self.video_name, name, self.a, self.b)[0]
                 results.append((name, temp[0], temp[1][0], temp[1][1]))
             sorted_results = sorted(results, key=lambda x: x[1])
-            print sorted_results
+
         # Find overall similarity using Minkowski distance measure for color histograms and sift vectors
         elif self.method_name == "OVERALL_SIM2":
             overall_sim = OverallSimilarity(None, None, None, None)
@@ -138,7 +138,6 @@ class SubsequenceSearch:
                                                                              self.video_name, name, self.a, self.b)[0]
                 results.append((name, temp[0], temp[1][0], temp[1][1]))
             sorted_results = sorted(results, key=lambda x: x[1])
-            print sorted_results
 
         for i in range(0, self.k):
             self.save_video_sequence(sorted_results[i][0], sorted_results[i][2], sorted_results[i][3], i + 1)
