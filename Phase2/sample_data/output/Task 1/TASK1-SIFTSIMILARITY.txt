@@ -1,0 +1,24 @@
+SAMPLE INPUT AND OUTPUT FOR TASK 1 - SIFT VECTOR SIMILARITY
+______________________________________________________________
+
+Enter the absolute path for .sift file:C:\Users\sjjai\Documents\MWDB-master (2)\MWDB-master\Phase1\out.sift
+Enter the file name for the first video(with extension):4R.mp4
+Enter the file name for the second video(with extension):6R.mp4
+Enter your choice 
+1.chebyshev 
+2.manhattan: 1
+Distance between 4R.mp4 and 6R.mp4 using the Chebyshev distance measure is: 
+294883.890826
+
+
+Enter the absolute path for .sift file:C:\Users\sjjai\Documents\MWDB-master (2)\MWDB-master\Phase1\out.sift
+Enter the file name for the first video(with extension):4R.mp4
+Enter the file name for the second video(with extension):6R.mp4
+Enter your choice 
+1.chebyshev 
+2.manhattan: 2
+Distance between 4R.mp4 and 6R.mp4 using the Manhattan distance measure is: 
+6962107.3651
+
+
+ 
