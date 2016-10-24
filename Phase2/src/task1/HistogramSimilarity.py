@@ -226,22 +226,22 @@ if __name__ == "__main__":
     result = 0.0
     if option == "1":
         result = similarity_obj.compute_similarity_correlation(video1_hists, video2_hists)
-        print "The histogram similarity based on correlation is "
+        print "The histogram similarity based on correlation for " + video1_name + " and " +video2_name + " is "
     elif option == "2":
         result = similarity_obj.compute_similarity_chisquare(video1_hists, video2_hists)
-        print "The histogram similarity based on chisquare is "
+        print "The histogram similarity based on chisquare for " + video1_name + " and " +video2_name + " is "
     elif option == "3":
         result = similarity_obj.compute_similarity_intersect(video1_hists, video2_hists)
-        print "The histogram similarity based on intersect is "
+        print "The histogram similarity based on intersect for " + video1_name + " and " +video2_name + " is "
     elif option == "4":
         result = similarity_obj.compute_similarity_bhattacharya(video1_hists, video2_hists)
-        print "The histogram similarity based on bhattacharya is "
+        print "The histogram similarity based on bhattacharya for " + video1_name + " and " +video2_name + " is "
     elif option == "5":
         result = similarity_obj.compute_similarity_euclidean(video1_hists, video2_hists)
-        print "The histogram similarity based on euclidean is "
+        print "The histogram similarity based on euclidean for " + video1_name + " and " +video2_name + " is "
     elif option == "6":
         result = similarity_obj.compute_similarity_manhattan(video1_hists, video2_hists)
-        print "The histogram similarity based on manhattan is "
+        print "The histogram similarity based on manhattan for " + video1_name + " and " +video2_name + " is "
     print result
 
 

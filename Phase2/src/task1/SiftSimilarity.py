@@ -118,9 +118,10 @@ if __name__ == "__main__":
     v1_sifts, v2_sifts, ratio = ms.process(video_array_1, video_array_2)
     if option == "1":
         similarity = ms.chebyshev_siftvector_similarity_2(v1_sifts, v2_sifts, ratio)
+        print "The sift similarity based on chebyshev for " + video_file_name_1 + " and " +video_file_name_2 + " is "
     else:
         similarity = ms.manhattan_siftvector_similarity_2(v1_sifts, v2_sifts, ratio)
-    print "Similarity"
+        print "The sift similarity based on manhattan for " + video_file_name_1 + " and " + video_file_name_2 + " is "
     print similarity
 
 

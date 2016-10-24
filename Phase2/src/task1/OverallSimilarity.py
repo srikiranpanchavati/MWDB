@@ -175,9 +175,9 @@ if __name__ == "__main__":
     similarity_obj = OverallSimilarity(video1_hists, video2_hists, video1_sift_vectors, video2_sift_vectors)
     result = similarity_obj.find_similarity(option)
     if option == "1":
-        print "The overall similarity distance based on manhattan is :"
+        print "The overall similarity distance based on manhattan for " + video1_name + " and " +video2_name + " is "
     else:
-        print "The overall similarity distance based on minkowski is :"
+        print "The overall similarity distance based on minkowski for " + video1_name + " and " + video2_name + " is "
     print result
 
 
