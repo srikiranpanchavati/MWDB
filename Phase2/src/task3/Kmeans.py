@@ -32,8 +32,13 @@ class KmeansReduction:
         criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
         ret, label, center = cv2.kmeans(np.float32(self.features), self.dimensions, criteria, 10,
                                         cv2.KMEANS_RANDOM_CENTERS)
-        scores = collections.Counter(label.ravel())
+        label = label.ravel()
+        scores = collections.Counter(label)
+        total = sum(scores.values())
         sorted_scores = sorted(scores.items(), key=operator.itemgetter(1), reverse=True)
+        length = len(sorted_scores)
+        for i in range(0, length):
+            sorted_scores[i]= (sorted_scores[i][0],(float(sorted_scores[i][1])*100/total))
         new_features = np.dot(self.features, np.transpose(center))
         return new_features, sorted_scores, center
 

@@ -30,8 +30,8 @@ class SiftSimilarity:
         for i, j in zip(range(0, len1), range(0, len2, step)):
             x = small_video_sifts[i]  # list of histogram cells for a frame
             for k in range(j, j + step):
+                y = large_video_sifts[k]  # list of histogram cells for a frame
                 if k < len2:
-                    y = large_video_sifts[k]  # list of histogram cells for a frame
                     for p, q in zip(x, y):
                         similarity += distance.cityblock(p, q)
                         count += 1
@@ -64,8 +64,8 @@ class SiftSimilarity:
         for i, j in zip(range(0, len1), range(0, len2, step)):
             x = small_video_sifts[i]  # list of histogram cells for a frame
             for k in range(j, j + step):
+                y = large_video_sifts[k]  # list of histogram cells for a frame
                 if k < len2:
-                    y = large_video_sifts[k]  # list of histogram cells for a frame
                     for p, q in zip(x, y):
                         similarity += distance.chebyshev(p, q)
                         count += 1
@@ -103,12 +103,12 @@ class SiftSimilarity:
                 mydict = {overall_sim: indices}
                 similarities.update(mydict)
         return sorted(similarities.items())
-
+    
 if __name__ == "__main__":
     in_file = raw_input("Enter the absolute path for .sift file:")
     video_file_name_1 = raw_input("Enter the file name for the first video(with extension):")
     video_file_name_2 = raw_input("Enter the file name for the second video(with extension):")
-    option = raw_input("Enter your choice \n1.chebyshev \n2.manhattan:")
+    option = raw_input("Enter your choice \n1.chebyshev \n2.manhattan: ")
     sv = SiftVectorHelper(in_file, video_file_name_1, video_file_name_2)
     video_array_1, video_array_2 = sv.parseFile()
     ms = SiftSimilarity()
@@ -118,10 +118,10 @@ if __name__ == "__main__":
     v1_sifts, v2_sifts, ratio = ms.process(video_array_1, video_array_2)
     if option == "1":
         similarity = ms.chebyshev_siftvector_similarity_2(v1_sifts, v2_sifts, ratio)
-        print "The sift similarity based on chebyshev for " + video_file_name_1 + " and " +video_file_name_2 + " is "
+        print "Distance between %s and %s using the Chebyshev distance measure is: " %(video_file_name_1, video_file_name_2)
     else:
         similarity = ms.manhattan_siftvector_similarity_2(v1_sifts, v2_sifts, ratio)
-        print "The sift similarity based on manhattan for " + video_file_name_1 + " and " + video_file_name_2 + " is "
+        print "Distance between %s and %s using the Manhattan distance measure is: " %(video_file_name_1, video_file_name_2)
     print similarity
 
 
