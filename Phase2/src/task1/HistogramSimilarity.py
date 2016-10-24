@@ -72,7 +72,8 @@ class HistogramSimilarity:
         return str(sum / count)
 
     def compute_similarity_intersect(self, hist_video1, hist_video2):
-        sum = 0.0
+        sum1 = 0.0
+        sum2 = 0.0
         count = 0
         l1 = len(hist_video1)  # number of frames in first video
         l2 = len(hist_video2)  # number of frames in second video
@@ -93,9 +94,10 @@ class HistogramSimilarity:
                 y = second[k]  # list of histogram cells for a frame
                 for p, q in zip(x, y):
                     result = cv2.compareHist(p, q, cv2.cv.CV_COMP_INTERSECT)
-                    sum += result
+                    sum1 += result
+                    sum2 += sum(p) + sum(q) - result
                     count += 1
-        return str(sum / count)
+        return str(sum1 / sum2)
 
     def compute_similarity_bhattacharya(self, hist_video1, hist_video2):
         sum = 0.0
@@ -206,7 +208,7 @@ class HistogramSimilarity:
         return sorted(similarities.items(), reverse=True)
 
 
-if __name__ == "__help__":
+if __name__ == "__main__":
     chst_file_name = raw_input("Enter color histogram file name(absolute path): ")
     video1_name = raw_input("Enter video1 name with extension: ")
     video2_name = raw_input("Enter video2 name with extension: ")
@@ -237,6 +239,6 @@ if __name__ == "__help__":
     print result
 
 
-#task 3 execution
-similarity_obj = HistogramSimilarity()
-print similarity_obj.find_correlation_similarity_for_subsequence("D:\\Education\\ASU\\MWD\\files\\phase2videos.chst", "6x_SQ_BL_TM_BR_Check.mp4","6x_SQ_BL_TM_BR_Check.mp4", 5, 10)
+# #task 3 execution
+# similarity_obj = HistogramSimilarity()
+# print similarity_obj.find_correlation_similarity_for_subsequence("D:\\Education\\ASU\\MWD\\files\\phase2videos.chst", "6x_SQ_BL_TM_BR_Check.mp4","6x_SQ_BL_TM_BR_Check.mp4", 5, 10)

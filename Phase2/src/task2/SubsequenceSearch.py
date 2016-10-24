@@ -3,6 +3,7 @@ import os
 from Phase2.src.task1.MotionVectorSimilarity import MotionVectorSimilarity
 from Phase2.src.task1.OverallSimilarity import OverallSimilarity
 from Phase2.src.task1.SiftSimilarity import SiftSimilarity
+from Phase2.src.task1.HistogramSimilarity import HistogramSimilarity
 
 # This task takes an input video range compares with remaining videos in the database and returns k most similar
 # video ranges in the given database and saves it to a specific folder to visualise
@@ -73,11 +74,17 @@ class SubsequenceSearch:
         results = []
         sorted_results = []
         if(self.method_name == "HISTOGRAM_SIM1"):
+            hist_sim = HistogramSimilarity()
             for name in file_names:
-                pass
+                temp = hist_sim.find_correlation_similarity_for_subsequence(self.fetures_path, self.video_name, name, self.a, self.b)[0]
+                results.append((name, temp[0], temp[1][0], temp[1][1]))
+            sorted_results = sorted(results, key=lambda x: x[1], reverse=True)
         elif(self.method_name == "HISTOGRAM_SIM2"):
+            hist_sim = HistogramSimilarity()
             for name in file_names:
-                pass
+                temp = hist_sim.find_intersection_similarity_for_subsequence(self.fetures_path, self.video_name, name, self.a, self.b)[0]
+                results.append((name, temp[0], temp[1][0], temp[1][1]))
+            sorted_results = sorted(results, key=lambda x: x[1], reverse=True)
         elif(self.method_name == "SIFT_SIM1"):
             sift_sim1 = SiftSimilarity()
             for name in file_names:
@@ -110,8 +117,12 @@ class SubsequenceSearch:
             sorted_results = sorted(results, key=lambda x: x[1])
             print sorted_results
         elif(self.method_name == "OVERALL_SIM2"):
+            overall_sim = OverallSimilarity(None, None, None, None)
             for name in file_names:
-                pass
+                temp = overall_sim.find_minkowski_similarity_for_subsequence(self.fetures_path, self.fetures_path2, self.video_name, name, self.a, self.b)[0]
+                results.append((name, temp[0], temp[1][0], temp[1][1]))
+            sorted_results = sorted(results, key=lambda x: x[1])
+            print sorted_results
 
         for i in range (0, self.k):
             self.save_video_sequence(sorted_results[i][0],sorted_results[i][2], sorted_results[i][3], i+1)
@@ -120,12 +131,12 @@ class SubsequenceSearch:
 
 if __name__ == "__main__":
     dir_path = "C:\\Users\\Giridhar\\Desktop\\MWDB Project\\P2DemoVideos"#raw_input("Enter input directory path: ")
-    vname = "6x_SQ_TL_BR_Check.mp4" #raw_input("Enter video file name: ")
-    method_name = "SIFT_SIM2"#raw_input("Enter method name to be used for search: ")
+    vname = "6x_TR_BL_TR_Noise.mp4" #raw_input("Enter video file name: ")
+    method_name = "HISTOGRAM_SIM2"#raw_input("Enter method name to be used for search: ")
     start_index = 1#raw_input("Enter start frame number: ")
     end_index = 15#raw_input("Enter end frame number: ")
     no_of_sequences = 5#raw_input("Enter number of sequences (K): ")
-    feature_file  = "C:\\Users\\Giridhar\\Desktop\\MWDB Project\\phase2videos_50.spca"#raw_input("Enter feature file path: ")
+    feature_file  = "C:\\Users\\Giridhar\\Desktop\\MWDB Project\\sift1.sift"#raw_input("Enter feature file path: ")
     feature_file2 = None
     if "OVERALL" in method_name:
         feature_file2 = "D:\\Education\\ASU\\MWD\\files\\phase2videos.sift"  # raw_input("Enter feature file path: ")
