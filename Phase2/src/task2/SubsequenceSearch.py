@@ -159,5 +159,5 @@ if __name__ == "__main__":
 
     sub_sequence_search = SubsequenceSearch(dir_path, vname, feature_file, feature_file2, method_name, int(start_index),
                                             int(end_index), int(no_of_sequences))
-    sub_sequence_search.save_video_sequence(None, start_index, end_index)
+    sub_sequence_search.save_video_sequence()
     sub_sequence_search.find_similar_frames()
