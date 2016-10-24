@@ -266,7 +266,12 @@ if __name__ == "__main__":
 
     ms = MotionVectorSimilarity()
     similarity, sorted_list = ms.chebyshev_motionvector_similarity(array_1, array_2)
-    print "Similarity"
+    print "Average Chebyshev Distance between %s and %s" %(video_file_name_1, video_file_name_2) 
+    print similarity
+
+    msi = MotionVectorSimilarity()
+    similarity, sorted_list = ms.manhattan_motionvector_similarity(array_1, array_2)
+    print "Average Manhattan Distance between %s and %s" %(video_file_name_1, video_file_name_2) 
     print similarity
 
 
