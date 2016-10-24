@@ -30,8 +30,8 @@ class SiftSimilarity:
         for i, j in zip(range(0, len1), range(0, len2, step)):
             x = small_video_sifts[i]  # list of histogram cells for a frame
             for k in range(j, j + step):
-                y = large_video_sifts[k]  # list of histogram cells for a frame
                 if k < len2:
+                    y = large_video_sifts[k]  # list of histogram cells for a frame
                     for p, q in zip(x, y):
                         similarity += distance.cityblock(p, q)
                         count += 1
@@ -64,8 +64,8 @@ class SiftSimilarity:
         for i, j in zip(range(0, len1), range(0, len2, step)):
             x = small_video_sifts[i]  # list of histogram cells for a frame
             for k in range(j, j + step):
-                y = large_video_sifts[k]  # list of histogram cells for a frame
                 if k < len2:
+                    y = large_video_sifts[k]  # list of histogram cells for a frame
                     for p, q in zip(x, y):
                         similarity += distance.chebyshev(p, q)
                         count += 1
@@ -103,7 +103,7 @@ class SiftSimilarity:
                 mydict = {overall_sim: indices}
                 similarities.update(mydict)
         return sorted(similarities.items())
-    
+
 if __name__ == "__main__":
     in_file = raw_input("Enter the absolute path for .sift file:")
     video_file_name_1 = raw_input("Enter the file name for the first video(with extension):")
