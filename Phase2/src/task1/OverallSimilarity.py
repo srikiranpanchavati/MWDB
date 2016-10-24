@@ -1,9 +1,7 @@
 # class for calculating the overall similarity
 from Phase2.src.utils.OverallSimilarityHelper import OverallSimilarityHelper
-import math
 import scipy
 from scipy import spatial
-import csv
 
 
 class OverallSimilarity:
@@ -49,13 +47,9 @@ class OverallSimilarity:
             overall_similarity = (self.find_minkowski_hist_distance(small_video_hists, large_video_hists, hist_ratio) +
                                   self.find_minkowski_sift_distance(small_video_sifts, large_video_sifts,
                                                                     sift_ratio)) / float(2)
-
-        # print "overall similarity = "
-        # print overall_similarity
+        return overall_similarity
 
     def find_manhattan_hist_distance(self, small_video_hists, large_video_hists, step):
-        #print small_video_hists
-        #print large_video_hists
         len1 = len(small_video_hists)
         len2 = len(large_video_hists)
         similarity = 0.0
@@ -169,7 +163,7 @@ class OverallSimilarity:
         return sorted(similarities.items())
 
 
-def execute():
+if __name__ == "__main__":
     chst_file_name = raw_input("Enter color histogram file name(absolute path): ")
     sift_file_name = raw_input("Enter sift vectors file name(absolute path): ")
     video1_name = raw_input("Enter video1 name with extension: ")
@@ -179,19 +173,14 @@ def execute():
     video1_hists, video2_hists = helper_obj.parse_chst_files()
     video1_sift_vectors, video2_sift_vectors = helper_obj.parse_sift_files()
     similarity_obj = OverallSimilarity(video1_hists, video2_hists, video1_sift_vectors, video2_sift_vectors)
-    similarity_obj.find_similarity(option)
+    result = similarity_obj.find_similarity(option)
+    if option == "1":
+        print "The overall similarity distance based on manhattan is :"
+    else:
+        print "The overall similarity distance based on minkowski is :"
+    print result
 
 
-
-    #similarity_obj = OverallSimilarity(video1_hists, video2_hists, video1_sift_vectors, video2_sift_vectors)
-    #similarity_obj.find_similarity()
-    """
-    helper_obj = ColorAndSiftHelper2("D:\\Education\\ASU\\MWD\\files\\test.chst", "D:\\Education\\ASU\\MWD\\files\\phase2videos.sift", "6x_SQ_BL_TM_BR_Noise.mp4", "c.mp4")
-    video1_hists, video2_hists = helper_obj.parse_chst_files()
-    video1_sift_vectors, video2_sift_vectors = helper_obj.parse_sift_files()
-    similarity_obj = OverallSimilarity(video1_hists, video2_hists, video1_sift_vectors, video2_sift_vectors)
-    similarity_obj.find_similarity()
-    """
-    # #execute()  this is for task 3
-    # similarity_obj = OverallSimilarity(None,None,None,None)
-    # similarity_obj.find_manhattan_similarity_for_subsequence("D:\\Education\\ASU\\MWD\\files\\phase2videos.chst", "D:\\Education\\ASU\\MWD\\files\\phase2videos.sift","6x_SQ_BL_TM_BR_Check.mp4","6x_SQ_BL_TM_BR_Noise.mp4", 5, 10)
+#task 3 execution
+#similarity_obj = OverallSimilarity(None,None,None,None)
+#print similarity_obj.find_manhattan_similarity_for_subsequence("D:\\Education\\ASU\\MWD\\files\\phase2videos.chst", "D:\\Education\\ASU\\MWD\\files\\phase2videos.sift","6x_SQ_BL_TM_BR_Check.mp4","6x_SQ_BL_TM_BR_Noise.mp4", 5, 10)

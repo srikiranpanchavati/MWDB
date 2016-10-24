@@ -1,6 +1,5 @@
 # Helper function to Extract the Color Histogram and SIFT features into numpy arrays
 import numpy as np
-from itertools import islice
 import csv
 
 
@@ -22,7 +21,7 @@ class OverallSimilarityHelper(object):
             if line.startswith(self.video2_name):
                 temp_line = line.strip(self.video2_name).strip(";").strip()
                 video2_hists.append(temp_line.split(';'))
-        return self.extractHistograms(video1_hists), self.extractHistograms(video2_hists)
+        return self.combine_frame_features(video1_hists), self.combine_frame_features(video2_hists)
 
     def parse_sift_files(self):
         video1_sifts = []
@@ -35,9 +34,9 @@ class OverallSimilarityHelper(object):
             if line.startswith(self.video2_name):
                 temp_line = line.strip(self.video2_name).strip(";").strip()
                 video2_sifts.append(temp_line.split(';'))
-        return self.extractHistograms(video1_sifts), self.extractHistograms(video2_sifts)
+        return self.combine_frame_features(video1_sifts), self.combine_frame_features(video2_sifts)
 
-    def extractHistograms(self, list1):
+    def combine_frame_features(self, list1):
         l = []
         final_list = []  # This is a list of lists of histograms
         prev = 1
@@ -48,9 +47,6 @@ class OverallSimilarityHelper(object):
             hist = hist_str.split(",")
             len_of_hist = len(hist)
             histogram = np.array(hist).astype('float32').reshape((len(hist), 1))
-            #print "Frame Number : " + str(frame_number),
-            #print "Cell Number : " + str(cell_number),
-            #print "Hist : " + str(hist_str)
             if frame_number == prev:
                 l.append(histogram)
             else:
@@ -59,16 +55,15 @@ class OverallSimilarityHelper(object):
                 l.append(histogram)
                 prev = frame_number
         final_list.append(l)
-        #print final_list
         return final_list
 
-
-def execute():
+# commenting main function
+"""
+if __name__ == "__main__":
     helper_obj = OverallSimilarityHelper("D:\\Education\\ASU\\MWD\\files\\test.chst", "D:\\Education\\ASU\\MWD\\files\\test.sift", "6x_SQ_BL_TM_BR_Check.mp4", "6x_SQ_BL_TM_BR_Noise.mp4")
     v1, v2 = helper_obj.parse_chst_files()
     v1_sift, v2_sift = helper_obj.parse_sift_files()
     with open("D:\\Education\\ASU\\MWD\\files\\output.csv", "wb") as f:
         writer = csv.writer(f)
         writer.writerows(v1_sift)
-
-
+"""
