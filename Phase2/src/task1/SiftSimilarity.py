@@ -108,7 +108,7 @@ if __name__ == "__main__":
     in_file = raw_input("Enter the absolute path for .sift file:")
     video_file_name_1 = raw_input("Enter the file name for the first video(with extension):")
     video_file_name_2 = raw_input("Enter the file name for the second video(with extension):")
-    option = raw_input("Enter your choice \n1.chebyshev \n2.manhattan:")
+    option = raw_input("Enter your choice \n1.chebyshev \n2.manhattan: ")
     sv = SiftVectorHelper(in_file, video_file_name_1, video_file_name_2)
     video_array_1, video_array_2 = sv.parseFile()
     ms = SiftSimilarity()
@@ -118,9 +118,10 @@ if __name__ == "__main__":
     v1_sifts, v2_sifts, ratio = ms.process(video_array_1, video_array_2)
     if option == "1":
         similarity = ms.chebyshev_siftvector_similarity_2(v1_sifts, v2_sifts, ratio)
+        print "Distance between %s and %s using the Chebyshev distance measure is: " %(video_file_name_1, video_file_name_2)
     else:
         similarity = ms.manhattan_siftvector_similarity_2(v1_sifts, v2_sifts, ratio)
-    print "Similarity"
+        print "Distance between %s and %s using the Manhattan distance measure is: " %(video_file_name_1, video_file_name_2)
     print similarity
 
 
