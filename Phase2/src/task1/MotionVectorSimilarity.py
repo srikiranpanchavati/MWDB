@@ -14,36 +14,18 @@ class MotionVectorSimilarity:
     def __init__(self):
        pass
 
-    ''' This method is rewritten with more precision
-    def euclidean_motionvector_similarity(self, array_1, array_2):
-        i = 0
-        euclidean_similarity = 0
-        for i in range(min(len(array_1), len(array_2))):            
-            euclidean_similarity += distance.euclidean(array_1[i,:], array_2[i,:])
-
-        euclidean_similarity = euclidean_similarity / i
-        
-        return euclidean_similarity
     '''
-
-    ''' This method has been rewritten with more precision
-    def chebyshev_motionvector_similarity(self, array_1, array_2):
-        i = 0
-        chebyshev_similarity = 0
-        for i in range(min(len(array_1), len(array_2))):            
-            chebyshev_similarity += distance.chebyshev(array_1[i,:], array_2[i,:])
-
-        chebyshev_similarity = chebyshev_similarity / i
-        return chebyshev_similarity
-    '''
-    '''
-        Method compares frames in video 1 with frame windows in video 2
-        Add the distance measure, start frame number, and end frame number
-        to a min heap
-        compare the second set of frames to the index next to the root of min heap
-    '''
-    # video_array_1 and 2 containg the complete motion vectors for videos
-    # split the videos into frames using helper function
+        Method compares frames in video 1 with frame windows in video 2 using sliding window mechanism
+        Adds the distance measure, start frame number, and end frame number
+        to a list
+        Input Parameters: video_array_1 consisting motion vectors for video 1
+                          video_array_2 consisting motion vectors for video 2
+                          start_index(a)
+                          end_index(b)
+        Outputs:
+                sorted list of all distances, start indexes and end indexes
+        Distance Function: Cheybshev
+    '''    
     def chebyshev_motionvector_array(self, video_array_1, video_array_2, start_index, end_index):
         slice_length = end_index - start_index
         start = start_index
@@ -62,14 +44,14 @@ class MotionVectorSimilarity:
         
         # compare using windows
         while end <= limit:
-            # process
+            # get the slice for video 2
             array_slice_2 = self.split_window(video_array_2, start, end)
             # get the distance measure
             for i in range(min(len(array_slice_1), len(array_slice_2))):            
                 chebyshev_similarity += distance.chebyshev(array_slice_1[i], array_slice_2[i])
             chebyshev_similarity = chebyshev_similarity / min(len(array_slice_1), len(array_slice_2))
         
-            # add distance, start, end to max heap
+            # add distance, start, end to list
             distance_list = [chebyshev_similarity, start, end]
             total_list.append(distance_list)
                         
@@ -80,8 +62,18 @@ class MotionVectorSimilarity:
 
         return sorted_list
 
-    # video_array_1 and 2 containg the complete motion vectors for videos
-    # split the videos into frames using helper function
+    '''
+        Method compares frames in video 1 with frame windows in video 2 using sliding window mechanism
+        Adds the distance measure, start frame number, and end frame number
+        to a list
+        Input Parameters: video_array_1 consisting motion vectors for video 1
+                          video_array_2 consisting motion vectors for video 2
+                          start_index(a)
+                          end_index(b)
+        Outputs:
+                sorted list of all distances, start indexes and end indexes
+        Distance Function: Manhattan
+    '''    
     def manhattan_motionvector_array(self, video_array_1, video_array_2, start_index, end_index):
         slice_length = end_index - start_index
         start = start_index
@@ -100,28 +92,37 @@ class MotionVectorSimilarity:
         
         # compare using windows
         while end <= limit:
-            # process
+            # get the slice for video 2
             array_slice_2 = self.split_window(video_array_2, start, end)
             # get the distance measure
             for i in range(min(len(array_slice_1), len(array_slice_2))):            
                 manhattan_similarity += distance.cityblock(array_slice_1[i], array_slice_2[i])
             manhattan_similarity = manhattan_similarity / min(len(array_slice_1), len(array_slice_2))
         
-            # add distance, start, end to max heap
+            # add distance, start, end to list
             distance_list = [manhattan_similarity, start, end]
             total_list.append(distance_list)
                         
             start = start + 1
             end = end + 1
 
-        # sort in reverse order
+        # sort
         sorted_list = sorted(total_list, key = itemgetter(0))
 
         return sorted_list
 
     '''
         Overloaded manhattan distance function for TASK 1
-        Input: array_1, array_2
+        
+        Method compares frames in video 1 with frame windows in video 2 using sliding window mechanism
+        Adds the distance measure, start frame number, and end frame number
+        to a list
+        Input Parameters: video_array_1 consisting motion vectors for video 1
+                          video_array_2 consisting motion vectors for video 2
+        Outputs:
+                sorted list of all distances, start indexes and end indexes
+                Average Distance Metric
+        Distance Function: Manhattan    
     '''
     def manhattan_motionvector_similarity(self, video_array_1, video_array_2): 
         slice_length = 10
@@ -141,24 +142,24 @@ class MotionVectorSimilarity:
         
         # compare using windows
         while end <= limit:
-            # process
+            # get the slice for video 2
             array_slice_2 = self.split_window(video_array_2, start, end)
             # get the distance measure
             for i in range(min(len(array_slice_1), len(array_slice_2))):            
                 manhattan_similarity += distance.cityblock(array_slice_1[i], array_slice_2[i])
             manhattan_similarity = manhattan_similarity / min(len(array_slice_1), len(array_slice_2))
         
-            # add distance, start, end to max heap
+            # add distance, start, end to list
             distance_list = [manhattan_similarity, start, end]
             total_list.append(distance_list)
                         
             start = start + 1
             end = end + 1
 
-        # sort in reverse order
+        # sort 
         sorted_list = sorted(total_list, key = itemgetter(0))
 
-        # now find the manhattan distance between the videos once you've found the first frame
+        # now find the manhattan distance between the videos once you've found the best frame
         frame_start = sorted_list[0][1]
         iterations = 1
         frame_end = min(len(array_slice_1), len(array_slice_2))        
@@ -174,9 +175,19 @@ class MotionVectorSimilarity:
         final_similarity = manhattan_similarity / j
 
         return final_similarity, sorted_list
+    
     '''
-        Overloaded Chebyshev distance function for TASK 1
-        Input: array_1, array_2 
+        Overloaded chebyshev distance function for TASK 1
+        
+        Method compares frames in video 1 with frame windows in video 2 using sliding window mechanism
+        Adds the distance measure, start frame number, and end frame number
+        to a list
+        Input Parameters: video_array_1 consisting motion vectors for video 1
+                          video_array_2 consisting motion vectors for video 2
+        Outputs:
+                sorted list of all distances, start indexes and end indexes
+                Average Distance Metric
+        Distance Function: Chebyshev    
     '''
     def chebyshev_motionvector_similarity(self, video_array_1, video_array_2):
         slice_length = 10
@@ -196,14 +207,14 @@ class MotionVectorSimilarity:
         
         # compare using windows
         while end <= limit:
-            # process
+            # get slice for video 2
             array_slice_2 = self.split_window(video_array_2, start, end)
             # get the distance measure
             for i in range(min(len(array_slice_1), len(array_slice_2))):            
                 chebyshev_similarity += distance.chebyshev(array_slice_1[i], array_slice_2[i])
             chebyshev_similarity = chebyshev_similarity / min(len(array_slice_1), len(array_slice_2))
         
-            # add distance, start, end to max heap
+            # add distance, start, end to list
             distance_list = [chebyshev_similarity, start, end]
             total_list.append(distance_list)
                         
@@ -212,7 +223,7 @@ class MotionVectorSimilarity:
 
         sorted_list = sorted(total_list, key = itemgetter(0))
 
-        # now find the chebyshev distance between the videos once you've found the first frame
+        # now find the chebyshev distance between the videos once you've found the best frame
         frame_start = sorted_list[0][1]
         iterations = 1
         frame_end = min(len(array_slice_1), len(array_slice_2))
@@ -266,7 +277,12 @@ if __name__ == "__main__":
 
     ms = MotionVectorSimilarity()
     similarity, sorted_list = ms.chebyshev_motionvector_similarity(array_1, array_2)
-    print "Similarity"
+    print "Average Chebyshev Distance between %s and %s" %(video_file_name_1, video_file_name_2) 
+    print similarity
+
+    msi = MotionVectorSimilarity()
+    similarity, sorted_list = ms.manhattan_motionvector_similarity(array_1, array_2)
+    print "Average Manhattan Distance between %s and %s" %(video_file_name_1, video_file_name_2) 
     print similarity
 
 
