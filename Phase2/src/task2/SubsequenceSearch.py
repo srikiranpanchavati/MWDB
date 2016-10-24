@@ -98,14 +98,15 @@ class SubsequenceSearch:
             sift_sim1 = SiftSimilarity()
             for name in file_names:
                 temp = sift_sim1.find_chebyshev_similarity_for_subsequence(self.fetures_path, self.video_name, name, self.a, self.b)[0]
-                results.append((name, temp[0], temp[1], temp[2]))
+                results.append((name, temp[0], temp[1][0], temp[1][1]))
             sorted_results = sorted(results, key=lambda x: x[1])
         # Find SIFT Vector similarity using Manhattan distance measure
         elif self.method_name == "SIFT_SIM2":
             sift_sim1 = SiftSimilarity()
             for name in file_names:
                 temp = sift_sim1.find_manhattan_similarity_for_subsequence(self.fetures_path, self.video_name, name, self.a, self.b)[0]
-                results.append((name, temp[0], temp[1], temp[2]))
+                print temp
+                results.append((name, temp[0], temp[1][0], temp[1][1]))
             sorted_results = sorted(results, key=lambda x: x[1])
         # Find Motion Vector similarity using Manhattan distance measure
         elif self.method_name == "MOTION_SIM1":
