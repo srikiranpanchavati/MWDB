@@ -1,7 +1,7 @@
 import numpy as np
-from MWDB.Phase2.src.utils.Task3Helper import Helper
+from src.utils.Task1Helper import Helper
 from sklearn.preprocessing import StandardScaler
-
+# from sklearn.decomposition import IncrementalPCA
 
 class PCA:
     def __init__(self):
@@ -32,23 +32,45 @@ class PCA:
         b = input_features - m1
 
         covariance_matrix = (np.dot(b.transpose(), b)) / (b.shape[0] - 1)
+        # eigen vectors contains the reduced vector space..
         eigen_values, eigen_vectors = np.linalg.eig(covariance_matrix)
 
         feature_scores = []
-        new_features = input_features
+
         if d < eigen_values.size:
-            eigen_tuples = sorted(enumerate(eigen_values), key=lambda x: x[1], reverse=True)
+            # sort the eigen values after enumerating them based on key 1
+            eigen_tuples = []
+            for x in range(len(eigen_values)):
+                # unsorted eigen values with original indexes
+                eigen_tuples.append((x, eigen_values[x]))
+
+            # sorted eigen values with original indexes
+            sorted_eigen_tuples = sorted(eigen_tuples, key=lambda x: x[1], reverse=True)
+
             indices_needed = []
             sum_eval = np.sum(eigen_values)
 
             for i in range(0, d):
-                feature_scores.append((eigen_tuples[i][0], (eigen_tuples[i][1]/sum_eval)*100))
-                indices_needed.append(eigen_tuples[i][0])
+                feature_scores.append((sorted_eigen_tuples[i][0], (sorted_eigen_tuples[i][1]/sum_eval)*100))
+                indices_needed.append(sorted_eigen_tuples[i][0])
 
-            new_ev = eigen_vectors[indices_needed]
-            new_features = np.dot(input_features, np.transpose(new_ev))
+            # project the input space to the PC co-ordinates
+            new_features = np.dot(input_features, np.transpose(eigen_vectors))
 
-        return feature_scores, new_features
+            reduced_values = []
+            # select the d dimensions and place into new_features
+            for i in range(len(sorted_eigen_tuples)):
+                if i in indices_needed:
+                    reduced_values = np.append(reduced_values, new_features[:, i])
+
+            reduced_values = np.reshape(reduced_values, (int(d), len(new_features)))
+
+            # final_reduced_features has the first d dimensions from the sorted array..
+            final_reduced_features = reduced_values.T
+
+            print(np.shape(final_reduced_features))
+
+        return feature_scores, final_reduced_features, eigen_vectors, sorted_eigen_tuples
 
 
 if __name__ == "__main__":
@@ -71,11 +93,12 @@ if __name__ == "__main__":
     if not __file_path.endswith(".chst"):
         __input_features = StandardScaler().fit_transform(__input_features)
 
-    __feature_scores, __new_features = PCA.pca_transform(__input_features, int(__new_dimensions))
-    __new_hist_data = PCA.replace_original_features(__formatted_input_data,__new_features)
+    # get the eigen values, vectors and feature scores
+    __feature_scores, __new_features, eigen_vectors, sorted_eigen_values = \
+        PCA.pca_transform(__input_features, int(__new_dimensions))
 
-    print ("scores of each feature as tuples (original_index, feature_score): ")
-    print(__feature_scores)
+    # replace the input features with reduced dimensions in the input matrix
+    __new_hist_data = PCA.replace_original_features(__formatted_input_data,__new_features)
 
     __file_name = __out_file + __ext
     __file_stream = open(__file_name, "a")
