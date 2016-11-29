@@ -13,7 +13,7 @@ from src.utils.SiftReader import SiftReader
 from src.utils.SiftWriter import SiftWriter
 from sklearn.decomposition import PCA as sklearnPCA
 from sklearn.preprocessing import StandardScaler
-
+import numpy as np
 
 class PCA:
     def __init__(self, in_file, n_dimensions):
@@ -35,12 +35,15 @@ class PCA:
 
         sift_points = self.sift_points
         transformed_features = pca.transform(self.sift_descriptors)
+
+        # have to figure out how to get the scores...
         '''
-            # have to figure out how to get the scores...
         print(type(transformed_features))
-        feature_scores = pca.score(self.sift_descriptors)
+        feature_scores = pca.score_samples(self.sift_descriptors)
         print(type(feature_scores))
         '''
+        transformed_features = np.around(transformed_features, 3)
+
         return sift_points, transformed_features
 
 
