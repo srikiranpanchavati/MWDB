@@ -12,6 +12,7 @@
 from src.utils.SiftReader import SiftReader
 from src.utils.SiftWriter import SiftWriter
 from sklearn.decomposition import PCA as sklearnPCA
+from sklearn import preprocessing
 import numpy as np
 
 
@@ -21,7 +22,10 @@ class PCA:
         self.n_dimensions = int(n_dimensions)
         # parse the file
         sv = SiftReader(in_file)
-        self.sift_points, self.sift_descriptors = sv.parse_file()
+        self.sift_points, non_standard_sift_descriptors = sv.parse_file()
+        # standardize sift features..
+        scaler = preprocessing.StandardScaler().fit(non_standard_sift_descriptors)
+        self.sift_descriptors = scaler.transform(non_standard_sift_descriptors)
 
     def get_reduced_dimensions(self):
         pca = sklearnPCA(n_components=self.n_dimensions)
