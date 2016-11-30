@@ -1,31 +1,46 @@
+"""
+    Helper function to apply pca on SIFT features
+    written_by: @aditya
+    rev: 1
+    Input: Exact location of the sift feature file
+    Output: SIFT feature file containing the reduced dimensionality SIFT features
+
+            {<i, j, l, x, y>, [dim1,...,dimd]},
+
+"""
+
+from src.utils.SiftReader import SiftReader
+from src.utils.SiftWriter import SiftWriter
+from sklearn.decomposition import PCA as sklearnPCA
 import numpy as np
-from src.utils.Task1Helper import Helper
-from sklearn.preprocessing import StandardScaler
-# from sklearn.decomposition import IncrementalPCA
+
 
 class PCA:
-    def __init__(self):
-        pass
+    def __init__(self, in_file, n_dimensions):
+        self.in_file = in_file
+        self.n_dimensions = int(n_dimensions)
+        # parse the file
+        sv = SiftReader(in_file)
+        self.sift_points, self.sift_descriptors = sv.parse_file()
 
-    # extracts only the feature list from the input data list
-    @staticmethod
-    def parse_features(input_data):
-        feature_data = np.zeros((len(input_data), len(input_data[0][3])))
-        for i in range(0, len(input_data)):
-            feature_data[i] = input_data[i][3]
-        return feature_data
+    def get_reduced_dimensions(self):
+        pca = sklearnPCA(n_components=self.n_dimensions)
+        # array returned after fitting the input data to
+        pca.fit(self.sift_descriptors)
 
-    # replaces original feature vectors with reduced feature in the list
-    @staticmethod
-    def replace_original_features(input_data, new_features):
-        for i in range(0, len(input_data)):
-                input_data[i][3] = new_features[i]
-        return input_data
+        sift_points = self.sift_points
+        transformed_features = pca.transform(self.sift_descriptors)
 
-    # performs PCA transformation on the original features and returns score and reduced feature vector list
+        transformed_features = np.around(transformed_features, 3)
+
+        # feature scores for each PC
+        feature_scores = self.get_pca_scores(self.sift_descriptors, self.n_dimensions)
+
+        return sift_points, transformed_features, feature_scores
+
     @staticmethod
-    def pca_transform(input_features=None, d=None):
-        if input_features is None or d is None:
+    def get_pca_scores(input_features=None, d=None):
+        if input_features is None and d is None:
             return input_features
 
         m1 = np.mean(input_features, axis=0)
@@ -47,64 +62,28 @@ class PCA:
             # sorted eigen values with original indexes
             sorted_eigen_tuples = sorted(eigen_tuples, key=lambda x: x[1], reverse=True)
 
-            indices_needed = []
             sum_eval = np.sum(eigen_values)
 
             for i in range(0, d):
                 feature_scores.append((sorted_eigen_tuples[i][0], (sorted_eigen_tuples[i][1]/sum_eval)*100))
-                indices_needed.append(sorted_eigen_tuples[i][0])
 
-            # project the input space to the PC co-ordinates
-            new_features = np.dot(input_features, np.transpose(eigen_vectors))
-
-            reduced_values = []
-            # select the d dimensions and place into new_features
-            for i in range(len(sorted_eigen_tuples)):
-                if i in indices_needed:
-                    reduced_values = np.append(reduced_values, new_features[:, i])
-
-            reduced_values = np.reshape(reduced_values, (int(d), len(new_features)))
-
-            # final_reduced_features has the first d dimensions from the sorted array..
-            final_reduced_features = reduced_values.T
-
-            print(np.shape(final_reduced_features))
-
-        return feature_scores, final_reduced_features, eigen_vectors, sorted_eigen_tuples
+        return feature_scores
 
 
 if __name__ == "__main__":
     __file_path = raw_input("input file path: ")
     __new_dimensions = raw_input("Enter value of d: ")
     __out_file = __file_path.rpartition('.')[0] + "_" + str(__new_dimensions)
-    __ext = ""
+    __out_file_ext = ".spc"
 
-    if __file_path.endswith(".chst"):
-        __ext = ".cpca"
-    elif __file_path.endswith(".sift"):
-        __ext = ".spca"
-    elif __file_path.endswith(".mvect"):
-        __ext = ".mpca"
+    # apply pca..
+    pca_handler = PCA(__file_path, __new_dimensions)
+    __sift_points, __reduced_dimensions, __feature_scores = pca_handler.get_reduced_dimensions()
 
-    helper = Helper()
+    print("Scores for each PC dimension as per the original index:")
+    print(__feature_scores)
 
-    __formatted_input_data = helper.parse_data_from_file(__file_path)
-    __input_features = [data[3] for data in __formatted_input_data]
-    if not __file_path.endswith(".chst"):
-        __input_features = StandardScaler().fit_transform(__input_features)
-
-    # get the eigen values, vectors and feature scores
-    __feature_scores, __new_features, eigen_vectors, sorted_eigen_values = \
-        PCA.pca_transform(__input_features, int(__new_dimensions))
-
-    # replace the input features with reduced dimensions in the input matrix
-    __new_hist_data = PCA.replace_original_features(__formatted_input_data,__new_features)
-
-    __file_name = __out_file + __ext
-    __file_stream = open(__file_name, "a")
-
-    for data in __new_hist_data:
-        data[3] = "[" + ",".join(str(x) for x in data[3]) + "]"
-        write_data = ";".join(str(x) for x in data)
-        __file_stream.write("%s\n" % write_data)
-
+    # write the sift reduced sift features to the output file..
+    __file_name = __out_file + __out_file_ext
+    sw = SiftWriter(__file_name)
+    sw.write_to_file(__sift_points, __reduced_dimensions)
