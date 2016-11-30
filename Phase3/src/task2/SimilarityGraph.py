@@ -80,8 +80,8 @@ def k_similar_frames(feature_arr, k, out_file_name):
             line = str(feature_arr[i, 0][0]) + "," + str(feature_arr[i, 0][1]) + ","
             line += str(feature_arr[sim_arr[j, 0], 0][0]) + "," + str(feature_arr[sim_arr[j, 0], 0][1]) + ","
             line += str(sim_arr[j, 1])+'\n'
-            print line
             file_writer.write(line)
+        print("Frame: " + str(i))
     file_writer.close()
 
 
