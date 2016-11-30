@@ -70,7 +70,7 @@ def read_file(inp_path):
     video_features = {}
     for line in open(inp_path):
         feature_list = line.split(",")
-        key = (feature_list[0], feature_list[1])
+        key = (feature_list[0].strip(), feature_list[1].strip())
         if key not in video_features:
             video_features[key] = []
         features = video_features[key]
