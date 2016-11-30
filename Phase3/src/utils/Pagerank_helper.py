@@ -10,13 +10,13 @@ class Helper:
         result_list = []
         for line in file:
             line_list = []
-            line = line.replace(",", ";")
-            data = line.split(";")
+            line = line.replace("\n", "")
+            data = line.split(",")
             line_list.append(data[0])
             line_list.append(data[1])
-            line_list.append(data[5])
-            line_list.append(data[6])
-            line_list.append(data[10])
+            line_list.append(data[2])
+            line_list.append(data[3])
+            line_list.append(data[4])
             result_list.append(line_list)
 
         return self.arr_to_graph(result_list)
@@ -29,10 +29,11 @@ class Helper:
 
             node_a = self.node_format(row[0], row[1])
             node_b = self.node_format(row[2], row[3])
+            wgt = float(row[4])
 
 
             DG.add_edge(node_a, node_b)
-            DG.add_path([node_a, node_b])
+            DG.add_path([node_a, node_b], weight = wgt)
 
 
         return DG

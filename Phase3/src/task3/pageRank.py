@@ -74,7 +74,7 @@ def pagerank_numpy(G, alpha=0.85, personalization=None, weight='weight',
 
 #saving the resulting frames
 def get_file_frame(str, val):
-    file = str.split(".mp4")[0][3:] + ".mp4"
+    file = str.split(".mp4")[0] + ".mp4"
     frame_num = str.split(".mp4")[1]
 
     print '{} {}'.format("File:", file)
@@ -115,14 +115,14 @@ def load_images(output):
 
 if __name__ == '__main__':
 
-        filename = "C:\Users\sjjai\Desktop\Phase3\sample_input.gspc"  #raw_input("Enter input path of the graph file: ")
-        vid_folder = "C:\Users\sjjai\Desktop\Phase3\P2DemoVideos"  #raw_input("Enter path where the videos are stored: ")
+        filename = "C:\Users\sjjai\Desktop\Phase3\demovideos_10_sample_2.gspc"  #raw_input("Enter input path of the graph file: ")
+        vid_folder = "C:\Users\sjjai\Desktop\Phase3\DataR"  #raw_input("Enter path where the videos are stored: ")
         m = 5   #raw_input("Enter the number of most significant frames to be found: ")
 
         h = Helper()
         print "Processing... "
         graph = h.parse_data_from_file(filename)
-        pr = pagerank_numpy(graph, alpha=0.8)
+        pr = pagerank_numpy(graph, alpha=0.85)
 
         sorted_pr = sorted(pr.iteritems(), key=lambda x:-x[1])[:m]
         print "Pagerank in sorted order:  "
