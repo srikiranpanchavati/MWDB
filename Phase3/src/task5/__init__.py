@@ -32,34 +32,15 @@ if __name__ == '__main__':
     print no_of_dims
     print "Enter the number of hash tables"
     num_of_hash_functions = int(raw_input())
-    print "Enter the number of buckets per hash function (in powers of 2)"
+    print "Enter the number of buckets per hash function (in powers of 2). Example : If you need 8 buckets input 3"
     num_of_buckets = int(raw_input())
     lsh = LSHash(hash_size=num_of_buckets, input_dim=no_of_dims, num_hashtables=num_of_hash_functions)
     for i in range(0,len(sift_features)):
         feature_info = sift_features_info[i]
         feature = sift_features[i]
         output = lsh.index(feature)
-        for line in range(0,len(output)):
-            file_writer.write(str(line) + "," + feature_info)
+        for j in range(0,len(output)):
+            file_writer.write(output[j] + "," + feature_info)
             file_writer.write("\n")
     file_writer.close()
-
-
-
-#f = open()
-
-#lsh = LSHash(hash_size=4,input_dim=8,num_hashtables=2)
-#lsh.index([1.3,2.2,3.4,4.1,5.7,6.8,7.2,8.3])
-#lsh.index([2.1,3,4,5,6,7,8,9])
-
-
-
-
-
-
-
-
-
-
-
 

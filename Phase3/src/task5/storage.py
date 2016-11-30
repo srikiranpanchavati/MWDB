@@ -1,3 +1,8 @@
+# lshash/storage.py
+# Copyright 2012 Kay Zhu (a.k.a He Zhu) and contributors (see CONTRIBUTORS.txt)
+#
+# This module is part of lshash and is released under
+# the MIT License: http://www.opensource.org/licenses/mit-license.php
 import json
 try:
     import redis
@@ -16,20 +21,9 @@ class BaseStorage(object):
     def __init__(self, config):
         raise NotImplementedError
 
-    def keys(self):
-        raise NotImplementedError
-
-    def set_val(self, key, val):
-        raise NotImplementedError
-
-    def get_val(self, key):
-        raise NotImplementedError
-
     def append_val(self, key, val):
         raise NotImplementedError
 
-    def get_list(self, key):
-        raise NotImplementedError
 
 
 class InMemoryStorage(BaseStorage):
@@ -37,18 +31,9 @@ class InMemoryStorage(BaseStorage):
         self.name = 'dict'
         self.storage = dict()
 
-    def keys(self):
-        return self.storage.keys()
 
-    def set_val(self, key, val):
-        self.storage[key] = val
-
-    def get_val(self, key):
-        return self.storage[key]
 
     def append_val(self, key, val):
         self.storage.setdefault(key, []).append(val)
 
-    def get_list(self, key):
-        return self.storage.get(key, [])
 
