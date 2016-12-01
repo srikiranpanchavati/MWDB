@@ -1,0 +1,31 @@
+Enter task1, task2 or exit : task1
+Enter absolute path of .gspc graph file: D:\Education\ASU\MWD\SampleData_10.gspc
+Enter most significant frames to be found value: 5
+Enter first frame(video_nameframe_num): 3.mp419
+Enter second frame(video_nameframe_num): 3.mp424
+Enter third frame(video_nameframe_num): 1.mp422
+Enter the absolute path of video files: D:\Education\ASU\MWD\P3DemoVideos
+Enter damping factor: 0.85
+................................
+Video name: 1.mp4
+Frame number: 22
+Rank: 0.0508892720307
+................................
+Video name: 3.mp4
+Frame number: 19
+Rank: 0.05
+................................
+Video name: 3.mp4
+Frame number: 24
+Rank: 0.05
+................................
+Video name: 46.mp4
+Frame number: 31
+Rank: 0.00267318007663
+................................
+Video name: 46.mp4
+Frame number: 14
+Rank: 0.00203793103448
+Enter task1, task2 or exit : exit
+
+Process finished with exit code 0
