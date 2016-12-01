@@ -1,31 +1,32 @@
 import os
 import json
 import numpy as np
-from storage import storage
 
-bitarray = None
-#/home/nisar/Downloads/phase3/test.spc
+def storage(storage_config, index):
+    if 'dict' in storage_config:
+        return InMemoryStorage(storage_config['dict'])
+class InMemoryStorage():
+    def __init__(self, config):
+        self.name = 'dict'
+        self.storage = dict()
+    def append_val(self, key, val):
+        self.storage.setdefault(key, []).append(val)
+
+
+#C:\Users\nshaik2\Downloads
 class LSHash(object):
 
-    def __init__(self, hash_size, input_dim, num_hashtables=1):
+    def __init__(self, hash_size, input_dim, num_hashtables):
         self.hash_size = hash_size
         self.input_dim = input_dim
         self.num_hashtables = num_hashtables
         storage_config = {'dict': None}
         self.storage_config = storage_config
-        self._init_uniform_planes()
-        self._init_hashtables()
-
-
-    def _init_uniform_planes(self):
-        if "uniform_planes" in self.__dict__:
-            return
         self.uniform_planes = [self._generate_uniform_planes()
-                                       for _ in xrange(self.num_hashtables)]
-
-    def _init_hashtables(self):
+                               for _ in xrange(self.num_hashtables)]
         self.hash_tables = [storage(self.storage_config, i)
                             for i in xrange(self.num_hashtables)]
+
 
     def _generate_uniform_planes(self):
         return np.random.randn(self.hash_size, self.input_dim)
@@ -37,8 +38,6 @@ class LSHash(object):
         return "".join(['1' if i > 0 else '0' for i in projections])
 
     def index(self, input_point):
-        if isinstance(input_point, np.ndarray):
-            input_point = input_point.tolist()
         value = tuple(input_point)
         output = []
         for i, table in enumerate(self.hash_tables):
