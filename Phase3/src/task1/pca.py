@@ -9,8 +9,8 @@
 
 """
 
-from src.utils.SiftReader import SiftReader
-from src.utils.SiftWriter import SiftWriter
+from Phase3.src.utils.SiftReader import SiftReader
+from Phase3.src.utils.SiftWriter import SiftWriter
 from sklearn.decomposition import PCA as sklearnPCA
 from sklearn import preprocessing
 import numpy as np

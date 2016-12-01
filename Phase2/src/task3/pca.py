@@ -15,6 +15,7 @@ class PCA:
             feature_data[i] = input_data[i][3]
         return feature_data
 
+
     # replaces original feature vectors with reduced feature in the list
     @staticmethod
     def replace_original_features(input_data, new_features):

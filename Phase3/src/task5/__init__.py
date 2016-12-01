@@ -1,6 +1,4 @@
-
 from lshash import *
-
 sift_features_info = []
 sift_features = []
 no_of_dims = 0
@@ -11,7 +9,7 @@ def extract_features(file_name):
         line = line.split("[")
         feature_info = line[0].strip()
         feature_info = feature_info[:-1]
-        feature_info = feature_info.replace(",",";")
+        #feature_info = feature_info.replace(",",";")
         feature = line[1].strip()
         feature = feature[:-1]
         #no_of_dims = len(feature.split())

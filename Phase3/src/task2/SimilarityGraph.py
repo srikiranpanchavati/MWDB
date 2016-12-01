@@ -2,7 +2,7 @@ import numpy as np
 from scipy.spatial import distance
 import sys
 import operator
-import ntpath
+from sklearn.neighbors import KNeighborsClassifier
 
 
 def vector_distance(vector1, vector2):
@@ -24,13 +24,31 @@ def sim_of_two_frames(frame1, frame2):
     return sim
 
 
-def similar_frames(index, frame_arr, k):
+def sim_of_two_frames_kmeans(vector1, vector2):
+    neighbour = KNeighborsClassifier(n_neighbors=1)
+    rows = len(vector2)
+    labels = []
+    for i in range(0, rows):
+        labels.append(i)
+    neighbour.fit(vector2, labels)
+    result = neighbour.predict(vector1)
+    total_dist = 0
+    for i in range(0, len(vector1)):
+        total_dist += vector_distance(vector1[i], vector2[result[i]])
+    avg_distance = total_dist/len(vector1)
+    sim = 1.0 / (1 + avg_distance)
+    return round(sim, 4)
+
+
+def similar_frames(index, frame_arr, k, feature_arr):
     length = frame_arr.shape[0]
     sim_list = []
     frame = frame_arr[index]
+    video_name = feature_arr[index][0][0]
     for j in range(0, length):
-        if index != j:
-            sim = sim_of_two_frames(frame, frame_arr[j])
+        curr_video = feature_arr[j][0][0]
+        if video_name != curr_video:
+            sim = sim_of_two_frames_kmeans(frame, frame_arr[j])
             sim_list.append(sim)
         else:
             sim_list.append(-1)
@@ -57,12 +75,13 @@ def k_similar_frames(feature_arr, k, out_file_name):
     frame_arr = np.asarray(feature_arr[:, 1])
     file_writer = open(out_file_name, 'w')
     for i in range(0, length):
-        sim_arr = similar_frames(i, frame_arr, k)
+        sim_arr = similar_frames(i, frame_arr, k, feature_arr)
         for j in range(0, k):
-            line = str(feature_arr[i, 0]) + ", "
-            line += str(feature_arr[sim_arr[j, 0], 0]) + ", "
+            line = str(feature_arr[i, 0][0]) + "," + str(feature_arr[i, 0][1]) + ","
+            line += str(feature_arr[sim_arr[j, 0], 0][0]) + "," + str(feature_arr[sim_arr[j, 0], 0][1]) + ","
             line += str(sim_arr[j, 1])+'\n'
             file_writer.write(line)
+        print("Frame: " + str(i))
     file_writer.close()
 
 
@@ -70,7 +89,7 @@ def read_file(inp_path):
     video_features = {}
     for line in open(inp_path):
         feature_list = line.split(",")
-        key = (feature_list[0], feature_list[1])
+        key = (feature_list[0].strip(), feature_list[1].strip())
         if key not in video_features:
             video_features[key] = []
         features = video_features[key]
@@ -89,15 +108,9 @@ def read_file(inp_path):
     return np.asarray(vf_list)
 
 
-def get_file_name(path):
-    head, tail = ntpath.split(path)
-    return tail or ntpath.basename(head)
-
-
 if __name__ == "__main__":
     inp_file_path = raw_input("Enter Sift file path:")
     k = int(raw_input("Enter K value:"))
-    out_file = get_file_name(inp_file_path).split(".")[0] + "_" + str(k) + ".gspc"
-    print(out_file)
+    out_file = inp_file_path.split(".")[0] + "_" + str(k) + ".gspc"
     video_features = read_file(inp_file_path)
     k_similar_frames(video_features, k, out_file)
