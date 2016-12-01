@@ -7,7 +7,7 @@ import os
 
 
 class Ascos:
-    def generate_adjacency_matrix(self, input_path):
+    def generate_adjacency_matrix(self, input_path, isPersonalised, input_frames=None):
         input_data = []
         vertices = []
         cnt = 0
@@ -32,15 +32,32 @@ class Ascos:
 
         for row in input_data:
             graph[row[0]][row[1]] = row[2]
+        # graph = np.transpose(graph)
+
+        if isPersonalised:
+            frame_indices = [vertices.index(input_frames[0]), vertices.index(input_frames[1]), vertices.index(input_frames[2])]
+            self.personalise_graph(graph, frame_indices)
 
         return graph, vertices
 
+    def personalise_graph(self, graph, frame_indices):
+        for i in frame_indices:
+            graph[i] = [x + (0.15 / 3) for x in graph[i]]
+
     def has_converged(self, prev_matrix, curr_matrix, iterator):
         if iterator >= 300:
+            print iterator
             return True
         return np.array_equal(prev_matrix, curr_matrix)
 
-    def calculate_similarity(self, prev_matrix, curr_matrix, i, j):
+    def get_in_neighbours(self,graph, in_neighbours_dict, length):
+        transpose_matrix = np.transpose(graph)
+        for i in range(length):
+            for x in range(length):
+                if 0 < transpose_matrix[i][x] < 1:
+                    in_neighbours_dict[i].append(x)
+
+    def calculate_similarity(self, prev_matrix, curr_matrix,in_neighbours_dict, i, j):
         if i == j:
             curr_matrix[i][j] = 1
             return
@@ -50,8 +67,9 @@ class Ascos:
             if n >= 0:
                 w_i_all += n
 
-        for k in range(len(prev_matrix[i])):
-            if prev_matrix[i][k] >= 0:
+        in_neighbours = in_neighbours_dict[i]
+        for k in in_neighbours:
+            if prev_matrix[i][k] >= 0 and w_i_all != 0:
                 curr_matrix[i][j] += (prev_matrix[i][k] / w_i_all)*(1 - math.exp(-1 * prev_matrix[i][k]))*prev_matrix[k][j]
                 curr_matrix[i][j] = round(curr_matrix[i][j], 4)
 
@@ -59,13 +77,15 @@ class Ascos:
         length = len(graph)
         prev_matrix = []
         curr_matrix = graph
+        in_neighbours_dict = collections.defaultdict(list)
+        self.get_in_neighbours(graph, in_neighbours_dict, length)
         iterator = 0
         while not self.has_converged(prev_matrix, curr_matrix, iterator):
             iterator += 1
             prev_matrix = curr_matrix
             for i in range(length):
                 for j in range(length):
-                    self.calculate_similarity(prev_matrix, curr_matrix, i, j)
+                    self.calculate_similarity(prev_matrix, curr_matrix, in_neighbours_dict, i, j)
 
         page_rank = collections.defaultdict(float)
         for j in range(length):
@@ -101,7 +121,7 @@ if __name__ == "__main__":
     videos_path = raw_input("Enter videos location absolute path: ")
 
     ascos = Ascos()
-    graph, vertices = ascos.generate_adjacency_matrix(path)
+    graph, vertices = ascos.generate_adjacency_matrix(path, False)
     page_rank = ascos.ascos_similarity(graph)
     if m > len(page_rank):
         print "invalid m value"
@@ -109,14 +129,12 @@ if __name__ == "__main__":
         frames = []
         for i in range(int(m)):
             frames.append(vertices[page_rank[i][0]])
-
+        print(frames)
+        cnt = 0
         for info in frames:
-
+            print "Video name: " + info[0]
+            print "Frame number: " + str(info[1])
+            print "Rank: " + str(page_rank[cnt][1])
+            print ("-------------------------------")
+            cnt += 1
             ascos.visualise(info[0], info[1], videos_path)
-
-        print frames
-
-
-
-
-
