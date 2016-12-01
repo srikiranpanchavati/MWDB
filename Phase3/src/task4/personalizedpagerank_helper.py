@@ -6,11 +6,11 @@ def helper(graph_file):
     G = nx.DiGraph()
     for line in open(graph_file):
         parameters = line.split(',')
-        print parameters
+        #print parameters
         src = parameters[0] + parameters[1]
         dest = parameters[2] + parameters[3]
         sim = parameters[4]
-        print src, dest, sim
+        #print src, dest, sim
         G.add_edge(src, dest, weight=sim)
     return G
 
