@@ -5,10 +5,10 @@ import operator
 
 def find_personalized_page_rank(graph, damping_factor=0.85, personalized_vector=None):
     M = nx.to_numpy_matrix(graph)
-    print M
+    #print M
     outlinks_list = list(graph.out_degree_iter())
     nodes_list = graph.nodes()
-    print outlinks_list
+    #print outlinks_list
     len_of_matrix = len(M)
     for i in range(len_of_matrix):
         curr_sum = M[i].sum()
@@ -16,32 +16,32 @@ def find_personalized_page_rank(graph, damping_factor=0.85, personalized_vector=
         if curr_sum != 0:
             for j in range(len_of_matrix):
                 M[i, j] = np.round(float(M.item(i, j)) * damping_factor / float(curr_sum * no_of_outlinks), 4)
-    print M
+    #print M
     M = M.T
-    print M
+    #print M
     no_of_seeds = len(personalized_vector)
     for i in personalized_vector:
         if i in nodes_list:
             get_index = nodes_list.index(i)
-            print get_index
+            #print get_index
             for j in range(len_of_matrix):
                 M[get_index, j] = M.item(get_index, j) + (1 - damping_factor) / float(no_of_seeds * len_of_matrix)
     print M
     V = np.matrix(np.repeat(1.0 / len_of_matrix, len_of_matrix)).T
-    print V
-    print M
-    print M * V
+    #print V
+    #print M
+    #print M * V
     iterations = 1
     while sum(abs(M * V - V)) > 0.001:
         iterations += 1
         V = M * V
-    print iterations
+    #print iterations
     rank_vector = M * V
     rank_dict = {}
     for i in range(len_of_matrix):
         rank_dict[nodes_list[i]] = rank_vector.item(i, 0)
     sorted_ranks = sorted(rank_dict.items(), key=operator.itemgetter(1), reverse=True)
-    print sorted_ranks
+    #print sorted_ranks
     return sorted_ranks
 
 
