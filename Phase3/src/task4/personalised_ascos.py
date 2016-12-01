@@ -23,8 +23,6 @@ if __name__ == "__main__":
         for i in range(int(m)):
             frames.append(vertices[page_rank[i][0]])
 
-        print(frames)
-
         cnt = 0
         for info in frames:
             print "Video name: " + info[0]
