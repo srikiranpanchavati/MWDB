@@ -5,12 +5,13 @@ Usage: Creates a similarity graph of k most similar frames from dimensionality r
 
 Proposed Solution:
   1. Every frame is compared with all the other frames except the frames in the same video.
-  2. While comparing two frames, for every sift point present in the source frame a closest sift point is found in the destination frame and distance between them is calculated.
-  3. Average of all the distances of the key points present in source file is computed.
-  4. This average distance is converted to similarity value between 1 and 0.
-  5. Here 1 means more similar and 0 means least similar
-  6. This similarity value is computed for the source frame with all other frames in all other videos.
-  7. K most similar frames are selected and written to output file.
+  2. While comparing two frames, for every sift point present in the source frame a closest sift point is found in the destination frame using 1-Nearest Neighbour algorithm.
+  3. Distance between them is calculated using Euclidean distance measure
+  4. Average of all the distances of the key points present in source file is computed.
+  5. This average distance is converted to similarity value between 1 and 0.
+  6. Here 1 means more similar and 0 means least similar
+  7. This similarity value is computed for the source frame with all other frames in all other videos.
+  8. K most similar frames are selected and written to output file.
 
 Software Requirements:
   1. Windows based environment
