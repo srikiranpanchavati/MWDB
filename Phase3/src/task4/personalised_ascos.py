@@ -32,6 +32,6 @@ if __name__ == "__main__":
             print "Rank: " + str(page_rank[cnt][1])
             print ("-------------------------------")
             cnt += 1
-            ascos.visualise(info[0], info[1], videos_path)
+            ascos.visualise(info[0], info[1], videos_path, True)
 
 

@@ -97,7 +97,14 @@ class Ascos:
         page_rank = sorted(page_rank.items(), key=operator.itemgetter(1), reverse=True)
         return page_rank
 
-    def visualise(self, video_name, frame_number, videos_path):
+    def visualise(self, video_name, frame_number, videos_path, is_personalised):
+        if is_personalised:
+            out_dir = videos_path + "//" + "personalised_ascos_output_frames"
+        else:
+            out_dir = videos_path + "//" + "ascos_output_frames"
+
+        if not os.path.exists(out_dir):
+            os.makedirs(out_dir)
         capture = cv2.VideoCapture(os.path.join(videos_path, video_name))
         frame = None
         count = 1
@@ -109,7 +116,9 @@ class Ascos:
                 break
             count += 1
 
+        write_loc = out_dir + "//"+ video_name + "_frame_" + str(frame_number) + ".jpeg"
         cv2.imshow(video_name + "_frame_" + str(frame_number), frame)
+        cv2.imwrite(write_loc, frame)
         cv2.waitKey(1000)
         capture.release()
         cv2.destroyAllWindows()
@@ -137,4 +146,4 @@ if __name__ == "__main__":
             print "Rank: " + str(page_rank[cnt][1])
             print ("-------------------------------")
             cnt += 1
-            ascos.visualise(info[0], info[1], videos_path)
+            ascos.visualise(info[0], info[1], videos_path, False)
