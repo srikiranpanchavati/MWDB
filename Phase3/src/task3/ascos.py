@@ -34,11 +34,13 @@ class Ascos:
             graph[row[0]][row[1]] = row[2]
         # graph = np.transpose(graph)
 
+        frame_indices = []
         if isPersonalised:
-            frame_indices = [vertices.index(input_frames[0]), vertices.index(input_frames[1]), vertices.index(input_frames[2])]
+            for k in range(3):
+                frame_indices.append(vertices.index(input_frames[k]))
             self.personalise_graph(graph, frame_indices)
 
-        return graph, vertices
+        return graph, vertices, frame_indices
 
     def personalise_graph(self, graph, frame_indices):
         for i in frame_indices:
@@ -57,7 +59,7 @@ class Ascos:
                 if 0 < transpose_matrix[i][x] < 1:
                     in_neighbours_dict[i].append(x)
 
-    def calculate_similarity(self, prev_matrix, curr_matrix,in_neighbours_dict, i, j):
+    def calculate_similarity(self, prev_matrix, curr_matrix,in_neighbours_dict, frame_indices, i, j):
         if i == j:
             curr_matrix[i][j] = 1
             return
@@ -70,10 +72,13 @@ class Ascos:
         in_neighbours = in_neighbours_dict[i]
         for k in in_neighbours:
             if prev_matrix[i][k] >= 0 and w_i_all != 0:
-                curr_matrix[i][j] += (prev_matrix[i][k] / w_i_all)*(1 - math.exp(-1 * prev_matrix[i][k]))*prev_matrix[k][j]
+                if len(frame_indices) != 0 and j in frame_indices:
+                    curr_matrix[i][j] +=(0.15 / 3) + (prev_matrix[i][k] / w_i_all)*(1 - math.exp(-1 * prev_matrix[i][k]))*prev_matrix[k][j]
+                else:
+                    curr_matrix[i][j] += (prev_matrix[i][k] / w_i_all)*(1 - math.exp(-1 * prev_matrix[i][k]))*prev_matrix[k][j]
                 curr_matrix[i][j] = round(curr_matrix[i][j], 4)
 
-    def ascos_similarity(self, graph):
+    def ascos_similarity(self, graph, frame_indices):
         length = len(graph)
         prev_matrix = []
         curr_matrix = graph
@@ -85,14 +90,14 @@ class Ascos:
             prev_matrix = curr_matrix
             for i in range(length):
                 for j in range(length):
-                    self.calculate_similarity(prev_matrix, curr_matrix, in_neighbours_dict, i, j)
+                    self.calculate_similarity(prev_matrix, curr_matrix, in_neighbours_dict, frame_indices, i, j)
 
         page_rank = collections.defaultdict(float)
         for j in range(length):
             for i in range(length):
                 page_rank[j] += curr_matrix[i][j]
 
-            page_rank[j] /= length
+            page_rank[j] /= length * 100
 
         page_rank = sorted(page_rank.items(), key=operator.itemgetter(1), reverse=True)
         return page_rank
@@ -130,8 +135,8 @@ if __name__ == "__main__":
     videos_path = raw_input("Enter videos location absolute path: ")
 
     ascos = Ascos()
-    graph, vertices = ascos.generate_adjacency_matrix(path, False)
-    page_rank = ascos.ascos_similarity(graph)
+    graph, vertices, frame_indices = ascos.generate_adjacency_matrix(path, False)
+    page_rank = ascos.ascos_similarity(graph, frame_indices)
     if m > len(page_rank):
         print "invalid m value"
     else:
