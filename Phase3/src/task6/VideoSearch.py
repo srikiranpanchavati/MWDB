@@ -59,7 +59,7 @@ class VideoSearch(object):
             count += 1
 
         cv2.imshow(video_name + "_frame_" + str(frame_number), image)
-        cv2.waitKey(1000)
+        cv2.waitKey(3000)
         capture.release()
         cv2.destroyAllWindows()
 

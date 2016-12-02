@@ -1,4 +1,4 @@
-from lshash import *
+from lsh import *
 sift_features_info = []
 sift_features = []
 no_of_dims = 0
@@ -27,16 +27,15 @@ if __name__ == '__main__':
     file_writer = open(output_file_name + ".lsh" ,"w")
     extract_features(file_name)
     no_of_dims = len(sift_features[0])
-    print no_of_dims
     print "Enter the number of hash tables"
     num_of_hash_functions = int(raw_input())
     print "Enter the number of buckets per hash function (in powers of 2). Example : If you need 8 buckets input 3"
     num_of_buckets = int(raw_input())
-    lsh = LSHash(hash_size=num_of_buckets, input_dim=no_of_dims, num_hashtables=num_of_hash_functions)
+    lsh = LSH(num_of_buckets, no_of_dims, num_of_hash_functions)
     for i in range(0,len(sift_features)):
         feature_info = sift_features_info[i]
         feature = sift_features[i]
-        output = lsh.index(feature)
+        output = lsh.perform_lsh(feature)
         for j in range(0,len(output)):
             file_writer.write(output[j] + "," + feature_info)
             file_writer.write("\n")
