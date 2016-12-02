@@ -64,7 +64,7 @@ class VideoSearch(object):
         cv2.destroyAllWindows()
 
     def get_access_size(self):
-        print '{}: {}'.format("Size of data: ", self.data_size )
+        print '{}: {}'.format("Size of data (in bytes): ", self.data_size )
         return self.data_size
 
     def get_unique_sifts(self):

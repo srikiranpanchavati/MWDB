@@ -8,28 +8,28 @@ import cv2
 
 def calc_pagerank(D, weight='weight'):
 
-    alpha=0.85
-    tol=1.0e-6
+    alpha=0.85  #damping factor
+    tol=1.0e-6  #Tolerance value for convergence
 
 
-    W = nx.stochastic_graph(D, weight=weight)
-    N = W.number_of_nodes()
+    Stc_graph = nx.stochastic_graph(D, weight=weight)
+    N = Stc_graph.number_of_nodes()
 
-    x = dict.fromkeys(W, 1.0 / N)
-    dangling_weights = x
-    dangling_nodes = [n for n in W if W.out_degree(n, weight=weight) == 0.0]
+    x = dict.fromkeys(Stc_graph, 1.0 / N)
+    D_weights = x
+    D_nodes = [n for n in Stc_graph if Stc_graph.out_degree(n, weight=weight) == 0.0]
 
     # power iteration: make up to 300 iterations
     for _ in range(300):
-        xlast = x
-        x = dict.fromkeys(xlast.keys(), 0)
-        danglesum = alpha * sum(xlast[n] for n in dangling_nodes)
+        prev_x = x
+        x = dict.fromkeys(prev_x.keys(), 0)
+        D_sum = alpha * sum(prev_x[n] for n in D_nodes)
         for n in x:
-            for nbr in W[n]:
-                x[nbr] += alpha * xlast[n] * W[n][nbr][weight]
-            x[n] += danglesum * dangling_weights[n] + (1.0 - alpha) * dangling_weights[n]
+            for nbr in Stc_graph[n]:
+                x[nbr] += alpha * prev_x[n] * Stc_graph[n][nbr][weight]
+            x[n] += D_sum * D_weights[n] + (1.0 - alpha) * D_weights[n]
 
-        err = sum([abs(x[n] - xlast[n]) for n in x])
+        err = sum([abs(x[n] - prev_x[n]) for n in x])
         if err < N*tol:
             return x
 
