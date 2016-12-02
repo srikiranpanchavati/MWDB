@@ -128,27 +128,3 @@ class Ascos:
         capture.release()
         cv2.destroyAllWindows()
 
-
-if __name__ == "__main__":
-    path = raw_input("Enter input graph file: ")
-    m = int(raw_input("enter value of m: "))
-    videos_path = raw_input("Enter videos location absolute path: ")
-
-    ascos = Ascos()
-    graph, vertices, frame_indices = ascos.generate_adjacency_matrix(path, False)
-    page_rank = ascos.ascos_similarity(graph, frame_indices)
-    if m > len(page_rank):
-        print "invalid m value"
-    else:
-        frames = []
-        for i in range(int(m)):
-            frames.append(vertices[page_rank[i][0]])
-
-        cnt = 0
-        for info in frames:
-            print "Video name: " + info[0]
-            print "Frame number: " + str(info[1])
-            print "Rank: " + str(page_rank[cnt][1])
-            print ("-------------------------------")
-            cnt += 1
-            ascos.visualise(info[0], info[1], videos_path, False)
