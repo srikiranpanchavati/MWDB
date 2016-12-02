@@ -1,31 +1,52 @@
+C:\Anaconda\python.exe "C:/Users/Giridhar/Desktop/MWDB Project/MWDB/Phase3/src/task4/task4.py"
 Enter task1, task2 or exit : task1
-Enter absolute path of input graph file: D:\Education\ASU\MWD\SampleData_10.gspc
-enter value of m: 5
-Enter absolute path of videos : D:\Education\ASU\MWD\P3DemoVideos
-Enter first reference video name and frame number (separated by ','): 3.mp4,19
-Enter second reference video name and frame number (separated by ','): 3.mp4,24
-Enter third reference video name and frame number (separated by ','): 1.mp4,22
+Enter absolute path of input graph file: C:\Users\Giridhar\Desktop\MWDB Project\MWDB\Phase3\Outputs\Task2\SampleData_10_2.gspc
+enter value of m: 10
+Enter absolute path of videos : C:\Users\Giridhar\Desktop\MWDB Project\SampleVideos
+Enter first reference video name and frame number (separated by ','): 46.mp4,4
+Enter second reference video name and frame number (separated by ','): 46.mp4,14
+Enter third reference video name and frame number (separated by ','): 1.mp4,1
 Enter damping factor: 0.85
-................................
-Video name: 1.mp4
-Frame number: 22
-Rank: 0.0508892720307
-................................
-Video name: 3.mp4
-Frame number: 19
-Rank: 0.05
-................................
-Video name: 3.mp4
-Frame number: 24
-Rank: 0.05
-................................
-Video name: 46.mp4
-Frame number: 31
-Rank: 0.00267318007663
 ................................
 Video name: 46.mp4
 Frame number: 14
-Rank: 0.00203793103448
+Rank: 0.07552
+................................
+Video name: 46.mp4
+Frame number: 16
+Rank: 0.0655794285714
+................................
+Video name: 1.mp4
+Frame number: 1
+Rank: 0.0649411428571
+................................
+Video name: 46.mp4
+Frame number: 4
+Rank: 0.0523331428571
+................................
+Video name: 46.mp4
+Frame number: 12
+Rank: 0.0388371428571
+................................
+Video name: 1.mp4
+Frame number: 30
+Rank: 0.0349205714286
+................................
+Video name: 46.mp4
+Frame number: 30
+Rank: 0.0326222857143
+................................
+Video name: 46.mp4
+Frame number: 29
+Rank: 0.0242748571429
+................................
+Video name: 1.mp4
+Frame number: 29
+Rank: 0.021836
+................................
+Video name: 46.mp4
+Frame number: 1
+Rank: 0.0149497142857
 Enter task1, task2 or exit : exit
 
 Process finished with exit code 0
