@@ -1,0 +1,50 @@
+C:\Anaconda\python.exe "C:/Users/Giridhar/Desktop/MWDB Project/MWDB/Phase3/src/task3/task3.py"
+Enter task1, task2 or exit : task1
+Enter input path of the graph file: C:\Users\Giridhar\Desktop\MWDB Project\MWDB\Phase3\Outputs\Task2\SampleData_10_2.gspc
+Enter the number of most significant frames to be found: 10
+Enter path where the videos are stored: C:\Users\Giridhar\Desktop\MWDB Project\SampleVideos
+Processing...
+Pagerank in sorted order:
+File: 1.mp4
+Frame number: 30
+Pagerank: 0.19396744947
+--------------------------
+File: 1.mp4
+Frame number: 29
+Pagerank: 0.178304248355
+--------------------------
+File: 46.mp4
+Frame number: 30
+Pagerank: 0.174001674181
+--------------------------
+File: 46.mp4
+Frame number: 29
+Pagerank: 0.170635371245
+--------------------------
+File: 46.mp4
+Frame number: 16
+Pagerank: 0.0219245427455
+--------------------------
+File: 1.mp4
+Frame number: 1
+Pagerank: 0.018882079539
+--------------------------
+File: 46.mp4
+Frame number: 1
+Pagerank: 0.0147752868108
+--------------------------
+File: 46.mp4
+Frame number: 12
+Pagerank: 0.01374382819
+--------------------------
+File: 46.mp4
+Frame number: 4
+Pagerank: 0.00902444908822
+--------------------------
+File: 46.mp4
+Frame number: 14
+Pagerank: 0.00866799893538
+--------------------------
+Enter task1, task2 or exit : exit
+
+Process finished with exit code 0

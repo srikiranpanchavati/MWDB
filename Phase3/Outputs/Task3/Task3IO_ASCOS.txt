@@ -1,0 +1,48 @@
+C:\Anaconda\python.exe "C:/Users/Giridhar/Desktop/MWDB Project/MWDB/Phase3/src/task3/task3.py"
+Enter task1, task2 or exit : task2
+Enter input graph file: C:\Users\Giridhar\Desktop\MWDB Project\MWDB\Phase3\Outputs\Task2\SampleData_10_2.gspc
+enter value of m: 10
+Enter videos location absolute path: C:\Users\Giridhar\Desktop\MWDB Project\SampleVideos
+Video name: 1.mp4
+Frame number: 30
+Rank: 0.00141549714286
+-------------------------------
+Video name: 46.mp4
+Frame number: 30
+Rank: 0.00137665142857
+-------------------------------
+Video name: 46.mp4
+Frame number: 29
+Rank: 0.00103453142857
+-------------------------------
+Video name: 1.mp4
+Frame number: 29
+Rank: 0.000872491428571
+-------------------------------
+Video name: 1.mp4
+Frame number: 1
+Rank: 0.000652588571429
+-------------------------------
+Video name: 46.mp4
+Frame number: 1
+Rank: 0.00059496
+-------------------------------
+Video name: 46.mp4
+Frame number: 16
+Rank: 0.00040388
+-------------------------------
+Video name: 46.mp4
+Frame number: 12
+Rank: 0.000260994285714
+-------------------------------
+Video name: 46.mp4
+Frame number: 14
+Rank: 0.000195
+-------------------------------
+Video name: 1.mp4
+Frame number: 7
+Rank: 0.000191217142857
+-------------------------------
+Enter task1, task2 or exit : exit
+
+Process finished with exit code 0

@@ -25,7 +25,7 @@ Setup:
 
 Page Rank:
 Input:
-1. Enter task 1, task2 or exit: enter task2 here
+1. Enter task 1, task2 or exit: enter task1 here
 2. filename : Input path of the graph file to be processed
 3. m : Number of most significant frames to be found
 4. vid_folder : Path where the videos are stored (needed to visualize the output)
