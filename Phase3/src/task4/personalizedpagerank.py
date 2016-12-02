@@ -56,7 +56,7 @@ def visualize(ranks, videos_path, m):
             print "Video name: " + video_name
             print "Frame number: " + frame_number
             print "Rank: " + str(rank_list[i][1])
-            out_dir = videos_path + "//" + "output_frames"
+            out_dir = videos_path + "//" + "personalizedpr_output_frames"
 
             if not os.path.exists(out_dir):
                 os.makedirs(out_dir)
