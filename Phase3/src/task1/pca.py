@@ -27,52 +27,33 @@ class PCA:
         scaler = preprocessing.StandardScaler().fit(non_standard_sift_descriptors)
         self.sift_descriptors = scaler.transform(non_standard_sift_descriptors)
 
-    def get_reduced_dimensions(self):
-        pca = sklearnPCA(n_components=self.n_dimensions)
-        # array returned after fitting the input data to
-        pca.fit(self.sift_descriptors)
-
-        sift_points = self.sift_points
-        transformed_features = pca.transform(self.sift_descriptors)
-
-        transformed_features = np.around(transformed_features, 3)
-
-        # feature scores for each PC
-        feature_scores = self.get_pca_scores(self.sift_descriptors, self.n_dimensions)
-
-        return sift_points, transformed_features, feature_scores
-
-    @staticmethod
-    def get_pca_scores(input_features=None, d=None):
-        if input_features is None and d is None:
+    def get_pca_reduced_features(self):
+        input_features = self.sift_descriptors
+        d = self.n_dimensions
+        if input_features is None or d is None:
             return input_features
 
         m1 = np.mean(input_features, axis=0)
         b = input_features - m1
 
         covariance_matrix = (np.dot(b.transpose(), b)) / (b.shape[0] - 1)
-        # eigen vectors contains the reduced vector space..
         eigen_values, eigen_vectors = np.linalg.eig(covariance_matrix)
 
         feature_scores = []
-
+        new_features = input_features
         if d < eigen_values.size:
-            # sort the eigen values after enumerating them based on key 1
-            eigen_tuples = []
-            for x in range(len(eigen_values)):
-                # unsorted eigen values with original indexes
-                eigen_tuples.append((x, eigen_values[x]))
-
-            # sorted eigen values with original indexes
-            sorted_eigen_tuples = sorted(eigen_tuples, key=lambda x: x[1], reverse=True)
-
+            eigen_tuples = sorted(enumerate(eigen_values), key=lambda x: x[1], reverse=True)
+            indices_needed = []
             sum_eval = np.sum(eigen_values)
 
             for i in range(0, d):
-                feature_scores.append((sorted_eigen_tuples[i][0], (sorted_eigen_tuples[i][1]/sum_eval)*100))
+                feature_scores.append((eigen_tuples[i][0], eigen_vectors[eigen_tuples[i][0]]))
+                indices_needed.append(eigen_tuples[i][0])
 
-        return feature_scores
+            new_ev = eigen_vectors[indices_needed]
+            new_features = np.dot(input_features, np.transpose(new_ev))
 
+        return self.sift_points, new_features, feature_scores
 
 if __name__ == "__main__":
     __file_path = raw_input("input file path: ")
@@ -82,12 +63,15 @@ if __name__ == "__main__":
 
     # apply pca..
     pca_handler = PCA(__file_path, __new_dimensions)
-    __sift_points, __reduced_dimensions, __feature_scores = pca_handler.get_reduced_dimensions()
+    __sift_points, __reduced_dimensions, __feature_scores = pca_handler.get_pca_reduced_features()
 
-    print("Scores for each PC dimension as per the original index:")
-    print(__feature_scores)
+    # print("Scores for each PC dimension as per the original index:")
+    # print(__feature_scores)
 
     # write the sift reduced sift features to the output file..
     __file_name = __out_file + __out_file_ext
     sw = SiftWriter(__file_name)
     sw.write_to_file(__sift_points, __reduced_dimensions)
+    score_file = __out_file + ".score"
+    fs = open(score_file, "w")
+    fs.writelines(str(__feature_scores))
